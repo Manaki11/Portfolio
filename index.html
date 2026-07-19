@@ -358,6 +358,33 @@
     .cursor-dot, .cursor-ring { display: none !important; }
   }
 
+  /* ══════════════ TOAST (confirmation copie email) ══════════════ */
+  .toast {
+    position: fixed;
+    left: 50%;
+    bottom: 32px;
+    transform: translate(-50%, 16px);
+    padding: 0.75rem 1.4rem;
+    border-radius: 999px;
+    background: rgba(18, 18, 24, 0.75);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    color: #f2f1f8;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.8rem;
+    letter-spacing: 0.02em;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4), 0 0 20px rgba(87, 194, 247, 0.12);
+    opacity: 0;
+    pointer-events: none;
+    z-index: 10000;
+    transition: opacity 0.35s ease, transform 0.35s cubic-bezier(0.25, 0.8, 0.25, 1);
+  }
+  .toast.show {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+
 </style>
 </head>
 
@@ -366,6 +393,9 @@
   <!-- ===================== CURSEUR PERSONNALISÉ ===================== -->
   <div class="cursor-ring" id="cursorRing" aria-hidden="true"><span class="cursor-ring-visual"></span></div>
   <div class="cursor-dot" id="cursorDot" aria-hidden="true"></div>
+
+  <!-- ===================== NOTIFICATION (retour visuel copie email) ===================== -->
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
 
   <!-- ===================== DÉCOR FIXE : ciel + rochers ===================== -->
   <div class="scene">
@@ -742,6 +772,37 @@
       // Léger effet de "pression" au clic
       window.addEventListener('mousedown', () => ring.classList.add('is-clicking'));
       window.addEventListener('mouseup', () => ring.classList.remove('is-clicking'));
+    })();
+
+    // --- FILET DE SÉCURITÉ POUR LES LIENS MAILTO (copie + confirmation visuelle) ---
+    // Si l'utilisateur n'a pas de client mail par défaut configuré, le mailto: ne fait rien
+    // visuellement : on copie donc systématiquement l'adresse et on confirme via un toast.
+    (function initMailtoFallback() {
+      const toast = document.getElementById('toast');
+      let toastTimer = null;
+
+      function showToast(message) {
+        if (!toast) return;
+        toast.textContent = message;
+        toast.classList.add('show');
+        clearTimeout(toastTimer);
+        toastTimer = setTimeout(() => toast.classList.remove('show'), 2800);
+      }
+
+      document.querySelectorAll('a[href^="mailto:"]').forEach((link) => {
+        link.addEventListener('click', () => {
+          const email = link.href.replace('mailto:', '').split('?')[0];
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(email)
+              .then(() => showToast(`Adresse copiée : ${email}`))
+              .catch(() => showToast(email));
+          } else {
+            showToast(email);
+          }
+          // On ne bloque jamais le comportement par défaut : si un client mail
+          // est configuré, il s'ouvrira normalement en plus de la copie.
+        });
+      });
     })();
   </script>
 
