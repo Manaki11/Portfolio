@@ -6,7 +6,7 @@
   <title>Marko Peric : Monteur Vidéo YouTube et Formats Courts</title>
   <meta name="description" content="Montage de vidéos longues YouTube, vlogs, concepts et formats verticaux (Shorts, TikTok, Reels) pour créateurs de contenu.">
   
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; frame-src https://www.youtube-nocookie.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; script-src 'self' 'unsafe-inline'; img-src 'self' data: https://i.ytimg.com;">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; frame-src https://www.youtube-nocookie.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; script-src 'self' 'unsafe-inline'; img-src 'self' data: https://i.ytimg.com https://yt3.googleusercontent.com https://yt3.ggpht.com;">
   <meta name="referrer" content="strict-origin-when-cross-origin">
 
   <meta property="og:type" content="website">
@@ -19,15 +19,17 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Plus+Jakarta+Sans:wght@400;500;600&family=Syne:wght@700&display=swap" rel="stylesheet">
 
   <style>
     :root {
-      --bg: #0d0d0c;
-      --surface: #151513;
-      --border: #292826;
-      --text: #f2efe9;
-      --muted: #9e9a91;
+      --bg: #090909;
+      --surface: #111111;
+      --surface-alt: #161616;
+      --border: #1f1f1f;
+      --border-strong: #2e2e2e;
+      --text: #ededeb;
+      --muted: #8a8a86;
       --accent: #e04f26;
       --error: #e5484d;
     }
@@ -56,6 +58,10 @@
       letter-spacing: -0.02em;
     }
 
+    .mono {
+      font-family: 'JetBrains Mono', monospace;
+    }
+
     a {
       color: inherit;
       text-decoration: none;
@@ -63,14 +69,15 @@
 
     .container {
       width: 100%;
-      max-width: 1240px;
+      max-width: 1200px;
       margin: 0 auto;
       padding: 0 20px;
     }
 
     header {
       border-bottom: 1px solid var(--border);
-      padding: 20px 0;
+      padding: 18px 0;
+      background-color: var(--bg);
     }
 
     .nav-bar {
@@ -81,79 +88,106 @@
       gap: 16px;
     }
 
+    .brand-group {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
     .brand {
-      font-size: 1.25rem;
-      font-weight: 800;
+      font-size: 1.15rem;
+      font-weight: 700;
       text-transform: uppercase;
+    }
+
+    .rec-status {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.75rem;
+      color: var(--muted);
+      padding: 4px 10px;
+      border: 1px solid var(--border);
+      background-color: var(--surface);
+    }
+
+    .rec-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background-color: var(--accent);
     }
 
     nav {
       display: flex;
       gap: 24px;
-      font-size: 0.95rem;
+      font-size: 0.9rem;
+      color: var(--muted);
     }
 
+    nav a:focus-visible,
     nav a:hover {
-      color: var(--accent);
+      color: var(--text);
     }
 
     .hero {
-      padding: 72px 0 64px;
+      padding: 68px 0 60px;
       border-bottom: 1px solid var(--border);
     }
 
-    .hero-tag {
-      display: inline-block;
-      font-size: 0.85rem;
+    .hero-meta {
+      font-size: 0.78rem;
+      color: var(--muted);
       text-transform: uppercase;
-      letter-spacing: 0.08em;
-      color: var(--accent);
+      letter-spacing: 0.06em;
       margin-bottom: 16px;
-      font-weight: 600;
+      display: block;
     }
 
     .hero h1 {
-      font-size: clamp(2rem, 5vw, 3.75rem);
-      line-height: 1.08;
-      max-width: 900px;
-      margin-bottom: 24px;
+      font-size: clamp(1.85rem, 4.2vw, 3.1rem);
+      line-height: 1.12;
+      max-width: 820px;
+      margin-bottom: 20px;
     }
 
     .hero p {
       color: var(--muted);
-      font-size: 1.125rem;
-      max-width: 640px;
-      margin-bottom: 36px;
+      font-size: 1.05rem;
+      max-width: 600px;
+      margin-bottom: 32px;
     }
 
     .hero-actions {
       display: flex;
       flex-wrap: wrap;
-      gap: 16px;
+      gap: 14px;
       align-items: center;
     }
 
     .btn-primary {
       background-color: var(--accent);
       color: #fff;
-      padding: 14px 28px;
+      padding: 13px 26px;
       font-weight: 600;
+      font-size: 0.92rem;
       border: 1px solid var(--accent);
       cursor: pointer;
       display: inline-block;
     }
 
     .btn-secondary {
-      background-color: transparent;
+      background-color: var(--surface);
       color: var(--text);
-      padding: 14px 28px;
+      padding: 13px 26px;
       font-weight: 500;
-      border: 1px solid var(--border);
+      font-size: 0.92rem;
+      border: 1px solid var(--border-strong);
       display: inline-block;
     }
 
     section {
-      padding: 64px 0;
+      padding: 60px 0;
       border-bottom: 1px solid var(--border);
     }
 
@@ -163,86 +197,248 @@
       align-items: baseline;
       flex-wrap: wrap;
       gap: 12px;
-      margin-bottom: 36px;
+      margin-bottom: 32px;
+    }
+
+    .section-title-wrap {
+      display: flex;
+      align-items: baseline;
+      gap: 12px;
+    }
+
+    .section-index {
+      font-size: 0.8rem;
+      color: var(--accent);
     }
 
     .section-header h2 {
-      font-size: clamp(1.5rem, 3vw, 2.25rem);
+      font-size: clamp(1.35rem, 2.5vw, 1.85rem);
     }
 
-    .section-header span {
+    .section-sub {
       color: var(--muted);
-      font-size: 0.95rem;
+      font-size: 0.82rem;
     }
 
-    .clients-strip {
+    /* Liste des créateurs avec photo de profil */
+    .clients-row {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(215px, 1fr));
       border-top: 1px solid var(--border);
       border-left: 1px solid var(--border);
     }
 
-    .client-item {
-      padding: 24px 20px;
+    .client-card {
+      padding: 18px;
       border-right: 1px solid var(--border);
       border-bottom: 1px solid var(--border);
       background-color: var(--surface);
       display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .client-card:focus-visible,
+    .client-card:hover {
+      border-color: var(--border-strong);
+      background-color: var(--surface-alt);
+    }
+
+    .avatar-box {
+      width: 46px;
+      height: 46px;
+      border-radius: 50%;
+      overflow: hidden;
+      background-color: var(--bg);
+      border: 1px solid var(--border-strong);
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .avatar-box img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .avatar-fallback {
+      display: none;
+      font-size: 0.8rem;
+      color: var(--muted);
+      font-weight: 500;
+    }
+
+    .client-details {
+      display: flex;
       flex-direction: column;
-      justify-content: space-between;
-      gap: 8px;
+      gap: 2px;
+      min-width: 0;
     }
 
     .client-name {
       font-weight: 600;
-      font-size: 1.05rem;
+      font-size: 0.98rem;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
     .client-handle {
       color: var(--muted);
-      font-size: 0.85rem;
+      font-size: 0.78rem;
     }
 
-    .client-item:focus-visible,
-    .client-item:hover {
-      border-color: var(--accent);
-    }
-
+    /* Grilles Vidéos */
     .shorts-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(205px, 1fr));
+      gap: 18px;
+    }
+
+    .featured-long {
+      display: grid;
+      grid-template-columns: 1.6fr 1fr;
+      border: 1px solid var(--border);
+      background-color: var(--surface);
+      margin-bottom: 24px;
+    }
+
+    .featured-info {
+      padding: 28px;
+      border-left: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
       gap: 20px;
+    }
+
+    .featured-info h3 {
+      font-size: 1.3rem;
+      line-height: 1.25;
+      margin-top: 8px;
+    }
+
+    .featured-desc {
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+
+    .tech-specs {
+      border-top: 1px solid var(--border);
+      padding-top: 16px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      font-size: 0.78rem;
+    }
+
+    .spec-label {
+      color: var(--muted);
+      display: block;
+      margin-bottom: 2px;
     }
 
     .longs-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
-      gap: 28px;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 24px;
     }
 
-    .video-item {
+    .video-card {
       background-color: var(--surface);
       border: 1px solid var(--border);
       display: flex;
       flex-direction: column;
     }
 
-    .video-frame {
+    .video-stage {
       position: relative;
       width: 100%;
-      background-color: #1c1c19;
+      background-color: #050505;
       overflow: hidden;
     }
 
-    .video-frame.vertical {
+    .video-stage.vertical {
       aspect-ratio: 9 / 16;
     }
 
-    .video-frame.horizontal {
+    .video-stage.horizontal {
       aspect-ratio: 16 / 9;
     }
 
-    .video-frame iframe {
+    .video-facade {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      border: 0;
+      background: #050505;
+      cursor: pointer;
+      padding: 0;
+      display: block;
+      text-align: left;
+    }
+
+    .video-facade img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0.78;
+      display: block;
+    }
+
+    .facade-top {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      right: 10px;
+      display: flex;
+      justify-content: space-between;
+      pointer-events: none;
+    }
+
+    .tc-badge {
+      background-color: rgba(9, 9, 9, 0.88);
+      border: 1px solid var(--border-strong);
+      color: var(--text);
+      padding: 3px 7px;
+      font-size: 0.72rem;
+    }
+
+    .play-trigger {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background-color: rgba(9, 9, 9, 0.9);
+      border: 1px solid var(--border-strong);
+      color: var(--text);
+      padding: 8px 16px;
+      font-size: 0.76rem;
+      letter-spacing: 0.08em;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .video-facade:focus-visible .play-trigger,
+    .video-facade:hover .play-trigger {
+      border-color: var(--accent);
+      color: #fff;
+    }
+
+    .play-icon {
+      width: 0;
+      height: 0;
+      border-top: 5px solid transparent;
+      border-bottom: 5px solid transparent;
+      border-left: 8px solid var(--accent);
+    }
+
+    .video-stage iframe {
       position: absolute;
       inset: 0;
       width: 100%;
@@ -251,68 +447,72 @@
       z-index: 2;
     }
 
-    .loader-state {
+    .loader-msg {
       position: absolute;
       inset: 0;
       display: flex;
       align-items: center;
       justify-content: center;
       color: var(--muted);
-      font-size: 0.8rem;
-      z-index: 1;
-      background: linear-gradient(90deg, #151513 25%, #20201d 50%, #151513 75%);
-      background-size: 200% 100%;
-      animation: pulseLoad 1.8s infinite;
-    }
-
-    @keyframes pulseLoad {
-      0% { background-position: 200% 0; }
-      100% { background-position: -200% 0; }
-    }
-
-    .video-meta {
-      padding: 14px 16px;
-      border-top: 1px solid var(--border);
-    }
-
-    .video-client {
       font-size: 0.78rem;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
+      background-color: #0c0c0c;
+      z-index: 1;
+    }
+
+    .video-bar {
+      padding: 12px 14px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .video-bar-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.74rem;
+      color: var(--muted);
+    }
+
+    .video-creator {
       color: var(--accent);
-      margin-bottom: 4px;
-      font-weight: 600;
+      text-transform: uppercase;
+      font-weight: 500;
     }
 
     .video-title {
-      font-size: 0.95rem;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 0.92rem;
       font-weight: 500;
       color: var(--text);
     }
 
-    .contact-layout {
+    /* Contact */
+    .contact-grid {
       display: grid;
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: 1fr 1.2fr;
       gap: 48px;
     }
 
-    .contact-info p {
+    .contact-lead p {
       color: var(--muted);
-      margin: 16px 0 24px;
+      margin: 14px 0 24px;
+      font-size: 0.95rem;
     }
 
-    .direct-mail {
+    .mail-box {
       display: inline-block;
-      padding: 10px 16px;
+      padding: 12px 18px;
       background-color: var(--surface);
-      border: 1px solid var(--border);
-      font-weight: 500;
+      border: 1px solid var(--border-strong);
+      font-size: 0.88rem;
     }
 
     form {
       display: flex;
       flex-direction: column;
-      gap: 18px;
+      gap: 16px;
     }
 
     .field {
@@ -322,17 +522,17 @@
     }
 
     label {
-      font-size: 0.9rem;
-      font-weight: 500;
+      font-size: 0.84rem;
+      color: var(--muted);
     }
 
     input, select, textarea {
       background-color: var(--surface);
-      border: 1px solid var(--border);
+      border: 1px solid var(--border-strong);
       color: var(--text);
       padding: 12px 14px;
       font-family: inherit;
-      font-size: 0.95rem;
+      font-size: 0.92rem;
       border-radius: 0;
     }
 
@@ -343,98 +543,111 @@
 
     .error-msg {
       color: var(--error);
-      font-size: 0.82rem;
+      font-size: 0.78rem;
       display: none;
     }
 
     .form-status {
-      padding: 14px;
-      border: 1px solid var(--border);
+      padding: 12px 14px;
+      border: 1px solid var(--border-strong);
       background-color: var(--surface);
       display: none;
-      font-size: 0.9rem;
+      font-size: 0.85rem;
     }
 
     footer {
-      padding: 36px 0;
-      font-size: 0.85rem;
+      padding: 32px 0;
+      font-size: 0.8rem;
       color: var(--muted);
     }
 
-    .footer-inner {
+    .footer-row {
       display: flex;
       justify-content: space-between;
       flex-wrap: wrap;
       gap: 16px;
     }
 
+    /* Bandeau cookies */
     .cookie-banner {
       position: fixed;
       bottom: 0;
       left: 0;
       right: 0;
       background-color: var(--surface);
-      border-top: 1px solid var(--border);
-      padding: 16px 20px;
+      border-top: 1px solid var(--border-strong);
+      padding: 14px 20px;
       z-index: 50;
       display: none;
     }
 
-    .cookie-content {
-      max-width: 1240px;
+    .cookie-inner {
+      max-width: 1200px;
       margin: 0 auto;
       display: flex;
       justify-content: space-between;
       align-items: center;
       flex-wrap: wrap;
       gap: 16px;
-      font-size: 0.88rem;
+      font-size: 0.84rem;
     }
 
-    .cookie-actions {
+    .cookie-btns {
       display: flex;
-      gap: 12px;
+      gap: 10px;
     }
 
-    .btn-small {
-      padding: 8px 16px;
-      font-size: 0.85rem;
+    .btn-cookie {
+      padding: 7px 14px;
+      font-size: 0.8rem;
       cursor: pointer;
-      border: 1px solid var(--border);
+      border: 1px solid var(--border-strong);
       background-color: var(--bg);
       color: var(--text);
     }
 
-    .btn-small.accept {
+    .btn-cookie.accept {
       background-color: var(--accent);
       border-color: var(--accent);
       color: #fff;
     }
 
-    @media (max-width: 768px) {
-      .contact-layout {
+    /* Affichage testé jusqu'à 375px */
+    @media (max-width: 860px) {
+      .featured-long {
         grid-template-columns: 1fr;
-        gap: 32px;
+      }
+      .featured-info {
+        border-left: 0;
+        border-top: 1px solid var(--border);
+        padding: 20px;
       }
       .longs-grid {
         grid-template-columns: 1fr;
       }
+      .contact-grid {
+        grid-template-columns: 1fr;
+        gap: 32px;
+      }
+    }
+
+    @media (max-width: 520px) {
       .shorts-grid {
         grid-template-columns: repeat(2, 1fr);
         gap: 12px;
       }
-    }
-
-    @media (max-width: 420px) {
-      .shorts-grid {
-        grid-template-columns: 1fr;
-      }
       .hero {
-        padding: 48px 0;
+        padding: 44px 0;
       }
       .hero-actions a {
         width: 100%;
         text-align: center;
+      }
+    }
+
+    @media (max-width: 380px) {
+      .shorts-grid {
+        grid-template-columns: 1fr;
       }
     }
   </style>
@@ -443,10 +656,13 @@
 
   <header>
     <div class="container nav-bar">
-      <a href="#" class="brand">Marko Peric</a>
+      <div class="brand-group">
+        <a href="#" class="brand">Marko Peric</a>
+        <span class="rec-status mono"><span class="rec-dot"></span>DISPONIBLE</span>
+      </div>
       <nav aria-label="Navigation principale">
-        <a href="#clients">Clients</a>
-        <a href="#shorts">Formats courts</a>
+        <a href="#clients">Créateurs</a>
+        <a href="#shorts">Shorts</a>
         <a href="#longs">Formats longs</a>
         <a href="#contact">Contact</a>
       </nav>
@@ -456,185 +672,350 @@
   <main>
     <section class="hero">
       <div class="container">
-        <span class="hero-tag">Monteur vidéo indépendant</span>
-        <h1>Montage de vidéos YouTube longues et de formats verticaux pour créateurs.</h1>
-        <p>Coupe dynamique, habillage sonore, sous-titrage rythmé et maintien de la rétention sur Premiere Pro et After Effects. Basé à Belfort, disponible à distance.</p>
+        <span class="hero-meta mono">POST-PRODUCTION YOUTUBE // PREMIERE PRO &amp; AFTER EFFECTS</span>
+        <h1>Montage de vidéos longues et de formats verticaux pour créateurs.</h1>
+        <p>Découpe rythmée, habillage sonore, sous-titrage dynamique et maintien de la rétention. Basé à Belfort, travail à distance.</p>
         <div class="hero-actions">
-          <a href="#contact" class="btn-primary">Discuter d'un projet</a>
-          <a href="#longs" class="btn-secondary">Voir les réalisations</a>
+          <a href="#contact" class="btn-primary">Démarrer une collaboration</a>
+          <a href="#longs" class="btn-secondary">Voir le moniteur</a>
         </div>
       </div>
     </section>
 
+    <!-- Créateurs / Clients avec photos de profil -->
     <section id="clients">
       <div class="container">
         <div class="section-header">
-          <h2>Chaînes partenaires</h2>
-          <span>Créateurs accompagnés en montage</span>
+          <div class="section-title-wrap">
+            <span class="section-index mono">01</span>
+            <h2>Chaînes accompagnées</h2>
+          </div>
+          <span class="section-sub mono">5 CRÉATEURS ACTIFS</span>
         </div>
-        <div class="clients-strip">
-          <a href="https://www.youtube.com/@ademgdy" target="_blank" rel="noopener noreferrer" class="client-item">
-            <span class="client-name">Ademgdy</span>
-            <span class="client-handle">@ademgdy</span>
+
+        <div class="clients-row">
+          <!-- Remplace ./avatar-ademgdy.jpg par l'adresse de l'image copiée sur YouTube -->
+          <a href="https://www.youtube.com/@ademgdy" target="_blank" rel="noopener noreferrer" class="client-card">
+            <div class="avatar-box">
+              <img src="./avatar-ademgdy.jpg" alt="Photo de profil de Ademgdy" width="46" height="46" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='inline';">
+              <span class="avatar-fallback mono" aria-hidden="true">AD</span>
+            </div>
+            <div class="client-details">
+              <span class="client-name">Ademgdy</span>
+              <span class="client-handle mono">@ademgdy</span>
+            </div>
           </a>
-          <a href="https://www.youtube.com/@asmar270" target="_blank" rel="noopener noreferrer" class="client-item">
-            <span class="client-name">Asmar</span>
-            <span class="client-handle">@asmar270</span>
+
+          <!-- Remplace ./avatar-asmar270.jpg par l'adresse de l'image copiée sur YouTube -->
+          <a href="https://www.youtube.com/@asmar270" target="_blank" rel="noopener noreferrer" class="client-card">
+            <div class="avatar-box">
+              <img src="./avatar-asmar270.jpg" alt="Photo de profil de Asmar" width="46" height="46" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='inline';">
+              <span class="avatar-fallback mono" aria-hidden="true">AS</span>
+            </div>
+            <div class="client-details">
+              <span class="client-name">Asmar</span>
+              <span class="client-handle mono">@asmar270</span>
+            </div>
           </a>
-          <a href="https://www.youtube.com/@NathanAdrasse" target="_blank" rel="noopener noreferrer" class="client-item">
-            <span class="client-name">Nathan Adrassé</span>
-            <span class="client-handle">@NathanAdrasse</span>
+
+          <!-- Remplace ./avatar-nathan.jpg par l'adresse de l'image copiée sur YouTube -->
+          <a href="https://www.youtube.com/@NathanAdrasse" target="_blank" rel="noopener noreferrer" class="client-card">
+            <div class="avatar-box">
+              <img src="./avatar-nathan.jpg" alt="Photo de profil de Nathan Adrassé" width="46" height="46" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='inline';">
+              <span class="avatar-fallback mono" aria-hidden="true">NA</span>
+            </div>
+            <div class="client-details">
+              <span class="client-name">Nathan Adrassé</span>
+              <span class="client-handle mono">@NathanAdrasse</span>
+            </div>
           </a>
-          <a href="https://www.youtube.com/@Cam_IX" target="_blank" rel="noopener noreferrer" class="client-item">
-            <span class="client-name">Cam</span>
-            <span class="client-handle">@Cam_IX</span>
+
+          <!-- Remplace ./avatar-cam.jpg par l'adresse de l'image copiée sur YouTube -->
+          <a href="https://www.youtube.com/@Cam_IX" target="_blank" rel="noopener noreferrer" class="client-card">
+            <div class="avatar-box">
+              <img src="./avatar-cam.jpg" alt="Photo de profil de Cam" width="46" height="46" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='inline';">
+              <span class="avatar-fallback mono" aria-hidden="true">CA</span>
+            </div>
+            <div class="client-details">
+              <span class="client-name">Cam</span>
+              <span class="client-handle mono">@Cam_IX</span>
+            </div>
           </a>
-          <a href="https://www.youtube.com/@Cam_Nathan" target="_blank" rel="noopener noreferrer" class="client-item">
-            <span class="client-name">Cam &amp; Nathan</span>
-            <span class="client-handle">@Cam_Nathan</span>
+
+          <!-- Remplace ./avatar-camnathan.jpg par l'adresse de l'image copiée sur YouTube -->
+          <a href="https://www.youtube.com/@Cam_Nathan" target="_blank" rel="noopener noreferrer" class="client-card">
+            <div class="avatar-box">
+              <img src="./avatar-camnathan.jpg" alt="Photo de profil de Cam et Nathan" width="46" height="46" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='inline';">
+              <span class="avatar-fallback mono" aria-hidden="true">CN</span>
+            </div>
+            <div class="client-details">
+              <span class="client-name">Cam &amp; Nathan</span>
+              <span class="client-handle mono">@Cam_Nathan</span>
+            </div>
           </a>
         </div>
       </div>
     </section>
 
+    <!-- Formats Verticaux -->
     <section id="shorts">
       <div class="container">
         <div class="section-header">
-          <h2>Formats verticaux</h2>
-          <span>Shorts, TikTok et Reels</span>
+          <div class="section-title-wrap">
+            <span class="section-index mono">02</span>
+            <h2>Formats verticaux</h2>
+          </div>
+          <span class="section-sub mono">RATIO 9:16 // SHORTS &amp; TIKTOK</span>
         </div>
+
         <div class="shorts-grid">
-          <article class="video-item">
-            <div class="video-frame vertical">
-              <div class="loader-state" aria-hidden="true">Chargement du lecteur...</div>
-              <iframe src="https://www.youtube-nocookie.com/embed/rf3YMrjm8fQ" title="@skensurvet DÉBITE Martinez dans ce Five Pays - Nathan Adrassé" loading="lazy" allowfullscreen onload="this.previousElementSibling.style.display='none';"></iframe>
+          <article class="video-card">
+            <div class="video-stage vertical">
+              <button type="button" class="video-facade" data-id="rf3YMrjm8fQ" data-start="0" data-title="Five Pays avec @skensurvet - Nathan Adrassé">
+                <img src="https://i.ytimg.com/vi/rf3YMrjm8fQ/hqdefault.jpg" alt="Miniature du Short Five Pays de Nathan Adrassé" loading="lazy">
+                <span class="facade-top mono">
+                  <span class="tc-badge">01:15</span>
+                  <span class="tc-badge">9:16</span>
+                </span>
+                <span class="play-trigger mono"><span class="play-icon"></span>LIRE</span>
+              </button>
             </div>
-            <div class="video-meta">
-              <div class="video-client">Nathan Adrassé</div>
+            <div class="video-bar">
+              <div class="video-bar-top mono">
+                <span class="video-creator">Nathan Adrassé</span>
+                <span>#01</span>
+              </div>
               <h3 class="video-title">Five Pays avec @skensurvet</h3>
             </div>
           </article>
 
-          <article class="video-item">
-            <div class="video-frame vertical">
-              <div class="loader-state" aria-hidden="true">Chargement du lecteur...</div>
-              <iframe src="https://www.youtube-nocookie.com/embed/OsZM0LXTzsY" title="Un choix trèèès difficile - Cam & Nathan" loading="lazy" allowfullscreen onload="this.previousElementSibling.style.display='none';"></iframe>
+          <article class="video-card">
+            <div class="video-stage vertical">
+              <button type="button" class="video-facade" data-id="OsZM0LXTzsY" data-start="0" data-title="Un choix très difficile - Cam & Nathan">
+                <img src="https://i.ytimg.com/vi/OsZM0LXTzsY/hqdefault.jpg" alt="Miniature du Short Un choix très difficile de Cam et Nathan" loading="lazy">
+                <span class="facade-top mono">
+                  <span class="tc-badge">00:52</span>
+                  <span class="tc-badge">9:16</span>
+                </span>
+                <span class="play-trigger mono"><span class="play-icon"></span>LIRE</span>
+              </button>
             </div>
-            <div class="video-meta">
-              <div class="video-client">Cam &amp; Nathan</div>
+            <div class="video-bar">
+              <div class="video-bar-top mono">
+                <span class="video-creator">Cam &amp; Nathan</span>
+                <span>#02</span>
+              </div>
               <h3 class="video-title">Un choix très difficile</h3>
             </div>
           </article>
 
-          <article class="video-item">
-            <div class="video-frame vertical">
-              <div class="loader-state" aria-hidden="true">Chargement du lecteur...</div>
-              <iframe src="https://www.youtube-nocookie.com/embed/Pa5VnDDCVfc" title="Croshoot respect pas les joueurs français - Cam & Nathan" loading="lazy" allowfullscreen onload="this.previousElementSibling.style.display='none';"></iframe>
+          <article class="video-card">
+            <div class="video-stage vertical">
+              <button type="button" class="video-facade" data-id="Pa5VnDDCVfc" data-start="0" data-title="Enchères joueurs avec Croshoot - Cam & Nathan">
+                <img src="https://i.ytimg.com/vi/Pa5VnDDCVfc/hqdefault.jpg" alt="Miniature du Short Enchères joueurs avec Croshoot de Cam et Nathan" loading="lazy">
+                <span class="facade-top mono">
+                  <span class="tc-badge">01:06</span>
+                  <span class="tc-badge">9:16</span>
+                </span>
+                <span class="play-trigger mono"><span class="play-icon"></span>LIRE</span>
+              </button>
             </div>
-            <div class="video-meta">
-              <div class="video-client">Cam &amp; Nathan</div>
+            <div class="video-bar">
+              <div class="video-bar-top mono">
+                <span class="video-creator">Cam &amp; Nathan</span>
+                <span>#03</span>
+              </div>
               <h3 class="video-title">Enchères joueurs avec Croshoot</h3>
             </div>
           </article>
 
-          <article class="video-item">
-            <div class="video-frame vertical">
-              <div class="loader-state" aria-hidden="true">Chargement du lecteur...</div>
-              <iframe src="https://www.youtube-nocookie.com/embed/UfBrZrSE1XQ" title="Les Jeux doivent-ils couter plus cher - Cam" loading="lazy" allowfullscreen onload="this.previousElementSibling.style.display='none';"></iframe>
+          <article class="video-card">
+            <div class="video-stage vertical">
+              <button type="button" class="video-facade" data-id="UfBrZrSE1XQ" data-start="0" data-title="Les jeux doivent-ils coûter plus cher ? - Cam">
+                <img src="https://i.ytimg.com/vi/UfBrZrSE1XQ/hqdefault.jpg" alt="Miniature du Short sur le prix des jeux vidéo de Cam" loading="lazy">
+                <span class="facade-top mono">
+                  <span class="tc-badge">01:06</span>
+                  <span class="tc-badge">9:16</span>
+                </span>
+                <span class="play-trigger mono"><span class="play-icon"></span>LIRE</span>
+              </button>
             </div>
-            <div class="video-meta">
-              <div class="video-client">Cam</div>
+            <div class="video-bar">
+              <div class="video-bar-top mono">
+                <span class="video-creator">Cam</span>
+                <span>#04</span>
+              </div>
               <h3 class="video-title">Les jeux doivent-ils coûter plus cher ?</h3>
             </div>
           </article>
 
-          <article class="video-item">
-            <div class="video-frame vertical">
-              <div class="loader-state" aria-hidden="true">Chargement du lecteur...</div>
-              <iframe src="https://www.youtube-nocookie.com/embed/7vmh5EbxaCY" title="POV tu bats un boss en 2036 - Cam" loading="lazy" allowfullscreen onload="this.previousElementSibling.style.display='none';"></iframe>
+          <article class="video-card">
+            <div class="video-stage vertical">
+              <button type="button" class="video-facade" data-id="7vmh5EbxaCY" data-start="0" data-title="POV : Tu bats un boss en 2036 - Cam">
+                <img src="https://i.ytimg.com/vi/7vmh5EbxaCY/hqdefault.jpg" alt="Miniature du Short POV tu bats un boss en 2036 de Cam" loading="lazy">
+                <span class="facade-top mono">
+                  <span class="tc-badge">01:05</span>
+                  <span class="tc-badge">9:16</span>
+                </span>
+                <span class="play-trigger mono"><span class="play-icon"></span>LIRE</span>
+              </button>
             </div>
-            <div class="video-meta">
-              <div class="video-client">Cam</div>
+            <div class="video-bar">
+              <div class="video-bar-top mono">
+                <span class="video-creator">Cam</span>
+                <span>#05</span>
+              </div>
               <h3 class="video-title">POV : Tu bats un boss en 2036</h3>
             </div>
           </article>
 
-          <!-- EMPLACEMENT : Tes anciens Shorts vont ici -->
+          <!-- EMPLACEMENT : Colle ici tes autres Shorts déjà présents (hors WElt5jaFo_E, jRVzi0fE8yk, VnvOP5KSOE4, kw14eraQhn4) -->
         </div>
       </div>
     </section>
 
+    <!-- Vidéos Longues avec moniteur principal -->
     <section id="longs">
       <div class="container">
         <div class="section-header">
-          <h2>Vidéos longues</h2>
-          <span>Vlogs, divertissement et face-cam</span>
+          <div class="section-title-wrap">
+            <span class="section-index mono">03</span>
+            <h2>Vidéos longues</h2>
+          </div>
+          <span class="section-sub mono">RATIO 16:9 // VLOGS &amp; CONCEPTS</span>
         </div>
-        <div class="longs-grid">
-          <article class="video-item">
-            <div class="video-frame horizontal">
-              <div class="loader-state" aria-hidden="true">Chargement du lecteur...</div>
-              <iframe src="https://www.youtube-nocookie.com/embed/S-SFaL1Wtbo?start=1570" title="Interrogatoire sous détecteur de mensonge avec @ademgdy - Asmar" loading="lazy" allowfullscreen onload="this.previousElementSibling.style.display='none';"></iframe>
-            </div>
-            <div class="video-meta">
-              <div class="video-client">Asmar</div>
-              <h3 class="video-title">Interrogatoire sous détecteur de mensonge avec @ademgdy</h3>
-            </div>
-          </article>
 
-          <article class="video-item">
-            <div class="video-frame horizontal">
-              <div class="loader-state" aria-hidden="true">Chargement du lecteur...</div>
-              <iframe src="https://www.youtube-nocookie.com/embed/k05IQVokUj8?start=199" title="Vlog 24h dans la vie de @ademgdy et Kayla - Asmar" loading="lazy" allowfullscreen onload="this.previousElementSibling.style.display='none';"></iframe>
+        <!-- Vidéo mise en avant (Moniteur principal) -->
+        <article class="featured-long">
+          <div class="video-stage horizontal">
+            <button type="button" class="video-facade" data-id="S-SFaL1Wtbo" data-start="1570" data-title="Interrogatoire sous détecteur de mensonge avec @ademgdy - Asmar">
+              <img src="https://i.ytimg.com/vi/S-SFaL1Wtbo/maxresdefault.jpg" alt="Miniature de la vidéo Interrogatoire sous détecteur de mensonge d'Asmar" loading="lazy">
+              <span class="facade-top mono">
+                <span class="tc-badge">TC 00:26:10</span>
+                <span class="tc-badge">SÉLECTION #01</span>
+              </span>
+              <span class="play-trigger mono"><span class="play-icon"></span>LANCER L'EXTRAIT</span>
+            </button>
+          </div>
+          <div class="featured-info">
+            <div>
+              <span class="video-creator mono" style="font-size: 0.78rem;">Asmar ft. Ademgdy</span>
+              <h3>Interrogatoire sous détecteur de mensonge</h3>
+              <p class="featured-desc" style="margin-top: 12px;">Montage de séquence face-cam en duo, gestion du rythme comique, zooms de réaction et habillage sonore pour maintenir la tension sur un format de 38 minutes.</p>
             </div>
-            <div class="video-meta">
-              <div class="video-client">Asmar</div>
+            <div class="tech-specs mono">
+              <div>
+                <span class="spec-label">TIMECODE ENTRÉE</span>
+                <span>26m 10s (1570s)</span>
+              </div>
+              <div>
+                <span class="spec-label">DURÉE TOTALE</span>
+                <span>38m 12s</span>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- Grille des autres vidéos longues -->
+        <div class="longs-grid">
+          <article class="video-card">
+            <div class="video-stage horizontal">
+              <button type="button" class="video-facade" data-id="k05IQVokUj8" data-start="199" data-title="Vlog 24h dans la vie de @ademgdy et Kayla - Asmar">
+                <img src="https://i.ytimg.com/vi/k05IQVokUj8/maxresdefault.jpg" alt="Miniature du Vlog 24h dans la vie de Ademgdy et Kayla" loading="lazy">
+                <span class="facade-top mono">
+                  <span class="tc-badge">TC 00:03:19</span>
+                  <span class="tc-badge">16:9</span>
+                </span>
+                <span class="play-trigger mono"><span class="play-icon"></span>LIRE</span>
+              </button>
+            </div>
+            <div class="video-bar">
+              <div class="video-bar-top mono">
+                <span class="video-creator">Asmar</span>
+                <span>#02</span>
+              </div>
               <h3 class="video-title">Vlog 24h dans la vie de @ademgdy et Kayla</h3>
             </div>
           </article>
 
-          <article class="video-item">
-            <div class="video-frame horizontal">
-              <div class="loader-state" aria-hidden="true">Chargement du lecteur...</div>
-              <iframe src="https://www.youtube-nocookie.com/embed/lBnT2TIRVzw?start=875" title="Devine le prix sinon tu payes avec ma sœur - Ademgdy" loading="lazy" allowfullscreen onload="this.previousElementSibling.style.display='none';"></iframe>
+          <article class="video-card">
+            <div class="video-stage horizontal">
+              <button type="button" class="video-facade" data-id="lBnT2TIRVzw" data-start="875" data-title="Devine le prix sinon tu payes avec ma sœur - Ademgdy">
+                <img src="https://i.ytimg.com/vi/lBnT2TIRVzw/maxresdefault.jpg" alt="Miniature de la vidéo Devine le prix sinon tu payes de Ademgdy" loading="lazy">
+                <span class="facade-top mono">
+                  <span class="tc-badge">TC 00:14:35</span>
+                  <span class="tc-badge">16:9</span>
+                </span>
+                <span class="play-trigger mono"><span class="play-icon"></span>LIRE</span>
+              </button>
             </div>
-            <div class="video-meta">
-              <div class="video-client">Ademgdy</div>
+            <div class="video-bar">
+              <div class="video-bar-top mono">
+                <span class="video-creator">Ademgdy</span>
+                <span>#03</span>
+              </div>
               <h3 class="video-title">Devine le prix sinon tu payes avec ma sœur</h3>
             </div>
           </article>
 
-          <article class="video-item">
-            <div class="video-frame horizontal">
-              <div class="loader-state" aria-hidden="true">Chargement du lecteur...</div>
-              <iframe src="https://www.youtube-nocookie.com/embed/VV_IQINIvfc?start=12" title="On s'envole à Dubaï avec ma sœur et @asmar270 - Ademgdy" loading="lazy" allowfullscreen onload="this.previousElementSibling.style.display='none';"></iframe>
+          <article class="video-card">
+            <div class="video-stage horizontal">
+              <button type="button" class="video-facade" data-id="VV_IQINIvfc" data-start="12" data-title="On s'envole à Dubaï avec ma sœur et @asmar270 - Ademgdy">
+                <img src="https://i.ytimg.com/vi/VV_IQINIvfc/maxresdefault.jpg" alt="Miniature du vlog départ à Dubaï de Ademgdy" loading="lazy">
+                <span class="facade-top mono">
+                  <span class="tc-badge">TC 00:00:12</span>
+                  <span class="tc-badge">16:9</span>
+                </span>
+                <span class="play-trigger mono"><span class="play-icon"></span>LIRE</span>
+              </button>
             </div>
-            <div class="video-meta">
-              <div class="video-client">Ademgdy</div>
+            <div class="video-bar">
+              <div class="video-bar-top mono">
+                <span class="video-creator">Ademgdy</span>
+                <span>#04</span>
+              </div>
               <h3 class="video-title">On s'envole à Dubaï avec ma sœur et @asmar270</h3>
             </div>
           </article>
 
-          <article class="video-item">
-            <div class="video-frame horizontal">
-              <div class="loader-state" aria-hidden="true">Chargement du lecteur...</div>
-              <iframe src="https://www.youtube-nocookie.com/embed/oNdw3AgqNoQ?start=538" title="Qui me connaît le mieux entre ma sœur et mon meilleur pote - Ademgdy" loading="lazy" allowfullscreen onload="this.previousElementSibling.style.display='none';"></iframe>
+          <article class="video-card">
+            <div class="video-stage horizontal">
+              <button type="button" class="video-facade" data-id="oNdw3AgqNoQ" data-start="538" data-title="Qui me connaît le mieux ft. @asmar270 - Ademgdy">
+                <img src="https://i.ytimg.com/vi/oNdw3AgqNoQ/maxresdefault.jpg" alt="Miniature de la vidéo Qui me connaît le mieux de Ademgdy" loading="lazy">
+                <span class="facade-top mono">
+                  <span class="tc-badge">TC 00:08:58</span>
+                  <span class="tc-badge">16:9</span>
+                </span>
+                <span class="play-trigger mono"><span class="play-icon"></span>LIRE</span>
+              </button>
             </div>
-            <div class="video-meta">
-              <div class="video-client">Ademgdy</div>
+            <div class="video-bar">
+              <div class="video-bar-top mono">
+                <span class="video-creator">Ademgdy</span>
+                <span>#05</span>
+              </div>
               <h3 class="video-title">Qui me connaît le mieux ft. @asmar270</h3>
             </div>
           </article>
 
-          <!-- EMPLACEMENT : Tes 2 anciennes vidéos longues vont ici -->
+          <!-- EMPLACEMENT : Colle ici tes 2 vidéos longues déjà présentes -->
 
-          <article class="video-item">
-            <div class="video-frame horizontal">
-              <div class="loader-state" aria-hidden="true">Chargement du lecteur...</div>
-              <iframe src="https://www.youtube-nocookie.com/embed/G4qnYbZVN1w?start=150" title="L'alternance : Meilleure idée ou pure arnaque ? - manaki" loading="lazy" allowfullscreen onload="this.previousElementSibling.style.display='none';"></iframe>
+          <article class="video-card">
+            <div class="video-stage horizontal">
+              <button type="button" class="video-facade" data-id="G4qnYbZVN1w" data-start="150" data-title="L'alternance : meilleure idée ou pure arnaque ? - Manaki">
+                <img src="https://i.ytimg.com/vi/G4qnYbZVN1w/maxresdefault.jpg" alt="Miniature de la vidéo sur l'alternance de Manaki" loading="lazy">
+                <span class="facade-top mono">
+                  <span class="tc-badge">TC 00:02:30</span>
+                  <span class="tc-badge">16:9</span>
+                </span>
+                <span class="play-trigger mono"><span class="play-icon"></span>LIRE</span>
+              </button>
             </div>
-            <div class="video-meta">
-              <div class="video-client">Manaki</div>
+            <div class="video-bar">
+              <div class="video-bar-top mono">
+                <span class="video-creator">Manaki</span>
+                <span>#06</span>
+              </div>
               <h3 class="video-title">L'alternance : meilleure idée ou pure arnaque ?</h3>
             </div>
           </article>
@@ -642,12 +1023,16 @@
       </div>
     </section>
 
+    <!-- Contact -->
     <section id="contact">
-      <div class="container contact-layout">
-        <div class="contact-info">
-          <h2>Confier un montage</h2>
+      <div class="container contact-grid">
+        <div class="contact-lead">
+          <div class="section-title-wrap">
+            <span class="section-index mono">04</span>
+            <h2>Confier un montage</h2>
+          </div>
           <p>Indique le format souhaité, le volume mensuel et le lien de ta chaîne. Réponse sous 24 heures.</p>
-          <a href="mailto:markop@laposte.net" class="direct-mail">markop@laposte.net</a>
+          <a href="mailto:markop@laposte.net" class="mail-box mono">markop@laposte.net</a>
         </div>
 
         <form id="contactForm" novalidate>
@@ -688,8 +1073,8 @@
   </main>
 
   <footer>
-    <div class="container footer-inner">
-      <span>Marko Peric — Micro-entreprise de montage vidéo</span>
+    <div class="container footer-row mono">
+      <span>Marko Peric : Micro-entreprise de montage vidéo</span>
       <div>
         <a href="./mentions-legales.html">Mentions légales</a>
       </div>
@@ -697,11 +1082,11 @@
   </footer>
 
   <div class="cookie-banner" id="cookieBanner" role="dialog" aria-label="Gestion des cookies">
-    <div class="cookie-content">
+    <div class="cookie-inner">
       <span>Ce site utilise une mesure d'audience pour analyser les visites. Vous pouvez accepter ou refuser ce suivi.</span>
-      <div class="cookie-actions">
-        <button type="button" class="btn-small" id="cookieReject">Refuser</button>
-        <button type="button" class="btn-small accept" id="cookieAccept">Accepter</button>
+      <div class="cookie-btns">
+        <button type="button" class="btn-cookie" id="cookieReject">Refuser</button>
+        <button type="button" class="btn-cookie accept" id="cookieAccept">Accepter</button>
       </div>
     </div>
   </div>
@@ -720,6 +1105,46 @@
       });
     }
 
+    // Chargement des lecteurs YouTube uniquement au clic avec validation stricte de l'identifiant
+    (function() {
+      const facades = document.querySelectorAll('.video-facade');
+      const idRegex = /^[a-zA-Z0-9_-]{11}$/;
+
+      facades.forEach(function(btn) {
+        btn.addEventListener('click', function() {
+          const videoId = btn.getAttribute('data-id');
+          const start = parseInt(btn.getAttribute('data-start') || '0', 10);
+          const title = btn.getAttribute('data-title') || 'Lecteur vidéo YouTube';
+
+          if (!idRegex.test(videoId)) return;
+
+          const stage = btn.parentElement;
+          const loader = document.createElement('div');
+          loader.className = 'loader-msg mono';
+          loader.textContent = 'CHARGEMENT DU FLUX...';
+
+          const iframe = document.createElement('iframe');
+          let src = 'https://www.youtube-nocookie.com/embed/' + encodeURIComponent(videoId) + '?autoplay=1&rel=0';
+          if (start > 0) {
+            src += '&start=' + start;
+          }
+          iframe.setAttribute('src', src);
+          iframe.setAttribute('title', title);
+          iframe.setAttribute('allow', 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture');
+          iframe.setAttribute('allowfullscreen', 'true');
+
+          iframe.addEventListener('load', function() {
+            loader.remove();
+          });
+
+          btn.remove();
+          stage.appendChild(loader);
+          stage.appendChild(iframe);
+        });
+      });
+    })();
+
+    // Validation du formulaire et limitation des tentatives
     (function() {
       const form = document.getElementById('contactForm');
       const statusBox = document.getElementById('formStatus');
@@ -792,6 +1217,7 @@
       });
     })();
 
+    // Bandeau cookies
     (function() {
       const banner = document.getElementById('cookieBanner');
       const choice = localStorage.getItem('mp_cookie_consent');
