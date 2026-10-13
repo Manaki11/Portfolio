@@ -6,21 +6,17 @@
   <title>Marko Peric : Monteur Vidéo YouTube et Formats Courts</title>
   <meta name="description" content="Montage de vidéos longues YouTube, vlogs, concepts et formats verticaux (Shorts, TikTok, Reels) pour créateurs de contenu.">
   
-  <!-- En-têtes de sécurité côté document -->
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; frame-src https://www.youtube-nocookie.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; script-src 'self' 'unsafe-inline'; img-src 'self' data: https://i.ytimg.com;">
   <meta name="referrer" content="strict-origin-when-cross-origin">
 
-  <!-- Open Graph / Image de partage -->
   <meta property="og:type" content="website">
   <meta property="og:title" content="Marko Peric : Monteur Vidéo YouTube et Formats Courts">
   <meta property="og:description" content="Montage de vidéos longues et formats verticaux pour créateurs YouTube.">
   <meta property="og:image" content="./og-cover.jpg">
 
-  <!-- Favicons -->
   <link rel="icon" type="image/png" sizes="32x32" href="./favicon-32x32.png">
   <link rel="apple-touch-icon" sizes="180x180" href="./apple-touch-icon.png">
 
-  <!-- Polices : Syne & Plus Jakarta Sans -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600&family=Syne:wght@700;800&display=swap" rel="stylesheet">
@@ -72,7 +68,6 @@
       padding: 0 20px;
     }
 
-    /* Navigation */
     header {
       border-bottom: 1px solid var(--border);
       padding: 20px 0;
@@ -102,7 +97,6 @@
       color: var(--accent);
     }
 
-    /* Premier écran (Hero) */
     .hero {
       padding: 72px 0 64px;
       border-bottom: 1px solid var(--border);
@@ -158,7 +152,6 @@
       display: inline-block;
     }
 
-    /* Sections */
     section {
       padding: 64px 0;
       border-bottom: 1px solid var(--border);
@@ -182,7 +175,6 @@
       font-size: 0.95rem;
     }
 
-    /* Collaborations / Clients */
     .clients-strip {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
@@ -216,7 +208,6 @@
       border-color: var(--accent);
     }
 
-    /* Grilles vidéos */
     .shorts-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
@@ -260,7 +251,6 @@
       z-index: 2;
     }
 
-    /* État de chargement */
     .loader-state {
       position: absolute;
       inset: 0;
@@ -300,7 +290,6 @@
       color: var(--text);
     }
 
-    /* Contact & Formulaire */
     .contact-layout {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -366,7 +355,6 @@
       font-size: 0.9rem;
     }
 
-    /* Pied de page */
     footer {
       padding: 36px 0;
       font-size: 0.85rem;
@@ -380,7 +368,6 @@
       gap: 16px;
     }
 
-    /* Bandeau cookies */
     .cookie-banner {
       position: fixed;
       bottom: 0;
@@ -424,7 +411,6 @@
       color: #fff;
     }
 
-    /* Adaptation 375px et petits écrans */
     @media (max-width: 768px) {
       .contact-layout {
         grid-template-columns: 1fr;
@@ -468,7 +454,6 @@
   </header>
 
   <main>
-    <!-- Premier écran avec appel à l'action direct -->
     <section class="hero">
       <div class="container">
         <span class="hero-tag">Monteur vidéo indépendant</span>
@@ -481,7 +466,6 @@
       </div>
     </section>
 
-    <!-- Collaborations -->
     <section id="clients">
       <div class="container">
         <div class="section-header">
@@ -513,7 +497,6 @@
       </div>
     </section>
 
-    <!-- Formats Verticaux (Les 5 nouveaux en premier, les 4 anciens retirés : WElt5jaFo_E, jRVzi0fE8yk, VnvOP5KSOE4, kw14eraQhn4) -->
     <section id="shorts">
       <div class="container">
         <div class="section-header">
@@ -576,12 +559,11 @@
             </div>
           </article>
 
-          <!-- EMPLACEMENT : Colle ici les autres Shorts que tu avais déjà (hors WElt5jaFo_E, jRVzi0fE8yk, VnvOP5KSOE4, kw14eraQhn4) -->
+          <!-- EMPLACEMENT : Tes anciens Shorts vont ici -->
         </div>
       </div>
     </section>
 
-    <!-- Vidéos Longues -->
     <section id="longs">
       <div class="container">
         <div class="section-header">
@@ -644,7 +626,7 @@
             </div>
           </article>
 
-          <!-- EMPLACEMENT : Colle ici les 2 vidéos longues qui étaient déjà présentes sur ton site -->
+          <!-- EMPLACEMENT : Tes 2 anciennes vidéos longues vont ici -->
 
           <article class="video-item">
             <div class="video-frame horizontal">
@@ -660,14 +642,12 @@
       </div>
     </section>
 
-    <!-- Contact -->
     <section id="contact">
       <div class="container contact-layout">
         <div class="contact-info">
           <h2>Confier un montage</h2>
           <p>Indique le format souhaité, le volume mensuel et le lien de ta chaîne. Réponse sous 24 heures.</p>
-          <!-- À remplacer par ton adresse e-mail réelle -->
-          <a href="mailto:contact@exemple.fr" class="direct-mail">contact@exemple.fr</a>
+          <a href="mailto:markop@laposte.net" class="direct-mail">markop@laposte.net</a>
         </div>
 
         <form id="contactForm" novalidate>
@@ -716,7 +696,6 @@
     </div>
   </footer>
 
-  <!-- Bandeau cookies avec refus possible -->
   <div class="cookie-banner" id="cookieBanner" role="dialog" aria-label="Gestion des cookies">
     <div class="cookie-content">
       <span>Ce site utilise une mesure d'audience pour analyser les visites. Vous pouvez accepter ou refuser ce suivi.</span>
@@ -728,7 +707,6 @@
   </div>
 
   <script>
-    // Échappement strict des entrées utilisateur
     function escapeHTML(str) {
       return str.replace(/[&<>'"]/g, function(tag) {
         const chars = {
@@ -742,7 +720,6 @@
       });
     }
 
-    // Gestion du formulaire avec limitation des tentatives et états d'erreur
     (function() {
       const form = document.getElementById('contactForm');
       const statusBox = document.getElementById('formStatus');
@@ -809,14 +786,12 @@
         statusBox.style.display = 'block';
         statusBox.textContent = 'Merci ' + safeName + '. Votre demande est prête. Redirection vers la confirmation...';
 
-        // Si tu relies un endpoint serveur ou que tu rediriges vers confirmation.html :
         setTimeout(function() {
           window.location.href = './confirmation.html';
         }, 1200);
       });
     })();
 
-    // Gestion du bandeau cookies
     (function() {
       const banner = document.getElementById('cookieBanner');
       const choice = localStorage.getItem('mp_cookie_consent');
@@ -828,7 +803,6 @@
       document.getElementById('cookieAccept').addEventListener('click', function() {
         localStorage.setItem('mp_cookie_consent', 'accepted');
         banner.style.display = 'none';
-        // Emplacement pour déclencher le script de mesure d'audience uniquement après accord
       });
 
       document.getElementById('cookieReject').addEventListener('click', function() {
