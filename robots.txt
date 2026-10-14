@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://manaki11.github.io/Portfolio/sitemap.xml
