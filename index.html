@@ -12,10 +12,9 @@
   <meta property="og:type" content="website">
   <meta property="og:title" content="Marko Peric : Monteur Vidéo YouTube et Formats Courts">
   <meta property="og:description" content="Montage de vidéos longues et formats verticaux pour créateurs YouTube.">
-  <meta property="og:image" content="./og-cover.jpg">
+  <meta property="og:url" content="https://manaki11.github.io/Portfolio/">
 
-  <link rel="icon" type="image/png" sizes="32x32" href="./favicon-32x32.png">
-  <link rel="apple-touch-icon" sizes="180x180" href="./apple-touch-icon.png">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23090909'/%3E%3Ccircle cx='16' cy='16' r='7' fill='%23e04f26'/%3E%3C/svg%3E">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -31,7 +30,6 @@
       --text: #ededeb;
       --muted: #8a8a86;
       --accent: #e04f26;
-      --error: #e5484d;
     }
 
     * {
@@ -167,7 +165,7 @@
 
     .btn-primary {
       background-color: var(--accent);
-      color: #fff;
+      color: var(--bg);
       padding: 13px 26px;
       font-weight: 600;
       font-size: 0.92rem;
@@ -257,15 +255,7 @@
       justify-content: center;
     }
 
-    .avatar-box img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-    }
-
     .avatar-fallback {
-      display: none;
       font-size: 0.8rem;
       color: var(--muted);
       font-weight: 500;
@@ -489,10 +479,8 @@
     }
 
     /* Contact */
-    .contact-grid {
-      display: grid;
-      grid-template-columns: 1fr 1.2fr;
-      gap: 48px;
+    .contact-lead {
+      max-width: 640px;
     }
 
     .contact-lead p {
@@ -501,58 +489,20 @@
       font-size: 0.95rem;
     }
 
+    .contact-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      align-items: center;
+    }
+
     .mail-box {
       display: inline-block;
-      padding: 12px 18px;
+      padding: 13px 18px;
       background-color: var(--surface);
       border: 1px solid var(--border-strong);
       font-size: 0.88rem;
-    }
-
-    form {
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-    }
-
-    .field {
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-    }
-
-    label {
-      font-size: 0.84rem;
-      color: var(--muted);
-    }
-
-    input, select, textarea {
-      background-color: var(--surface);
-      border: 1px solid var(--border-strong);
-      color: var(--text);
-      padding: 12px 14px;
-      font-family: inherit;
-      font-size: 0.92rem;
-      border-radius: 0;
-    }
-
-    input:focus, select:focus, textarea:focus {
-      outline: 1px solid var(--accent);
-      border-color: var(--accent);
-    }
-
-    .error-msg {
-      color: var(--error);
-      font-size: 0.78rem;
-      display: none;
-    }
-
-    .form-status {
-      padding: 12px 14px;
-      border: 1px solid var(--border-strong);
-      background-color: var(--surface);
-      display: none;
-      font-size: 0.85rem;
+      user-select: all;
     }
 
     footer {
@@ -568,50 +518,6 @@
       gap: 16px;
     }
 
-    /* Bandeau cookies */
-    .cookie-banner {
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      background-color: var(--surface);
-      border-top: 1px solid var(--border-strong);
-      padding: 14px 20px;
-      z-index: 50;
-      display: none;
-    }
-
-    .cookie-inner {
-      max-width: 1200px;
-      margin: 0 auto;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 16px;
-      font-size: 0.84rem;
-    }
-
-    .cookie-btns {
-      display: flex;
-      gap: 10px;
-    }
-
-    .btn-cookie {
-      padding: 7px 14px;
-      font-size: 0.8rem;
-      cursor: pointer;
-      border: 1px solid var(--border-strong);
-      background-color: var(--bg);
-      color: var(--text);
-    }
-
-    .btn-cookie.accept {
-      background-color: var(--accent);
-      border-color: var(--accent);
-      color: #fff;
-    }
-
     /* Affichage testé jusqu'à 375px */
     @media (max-width: 860px) {
       .featured-long {
@@ -624,10 +530,6 @@
       }
       .longs-grid {
         grid-template-columns: 1fr;
-      }
-      .contact-grid {
-        grid-template-columns: 1fr;
-        gap: 32px;
       }
     }
 
@@ -677,7 +579,7 @@
         <p>Découpe rythmée, habillage sonore, sous-titrage dynamique et maintien de la rétention. Basé à Belfort, travail à distance.</p>
         <div class="hero-actions">
           <a href="#contact" class="btn-primary">Démarrer une collaboration</a>
-          <a href="#longs" class="btn-secondary">Voir le moniteur</a>
+          <a href="#longs" class="btn-secondary">Voir les montages</a>
         </div>
       </div>
     </section>
@@ -694,10 +596,8 @@
         </div>
 
         <div class="clients-row">
-          <!-- Remplace ./avatar-ademgdy.jpg par l'adresse de l'image copiée sur YouTube -->
           <a href="https://www.youtube.com/@ademgdy" target="_blank" rel="noopener noreferrer" class="client-card">
             <div class="avatar-box">
-              <img src="./avatar-ademgdy.jpg" alt="Photo de profil de Ademgdy" width="46" height="46" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='inline';">
               <span class="avatar-fallback mono" aria-hidden="true">AD</span>
             </div>
             <div class="client-details">
@@ -706,10 +606,8 @@
             </div>
           </a>
 
-          <!-- Remplace ./avatar-asmar270.jpg par l'adresse de l'image copiée sur YouTube -->
           <a href="https://www.youtube.com/@asmar270" target="_blank" rel="noopener noreferrer" class="client-card">
             <div class="avatar-box">
-              <img src="./avatar-asmar270.jpg" alt="Photo de profil de Asmar" width="46" height="46" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='inline';">
               <span class="avatar-fallback mono" aria-hidden="true">AS</span>
             </div>
             <div class="client-details">
@@ -718,10 +616,8 @@
             </div>
           </a>
 
-          <!-- Remplace ./avatar-nathan.jpg par l'adresse de l'image copiée sur YouTube -->
           <a href="https://www.youtube.com/@NathanAdrasse" target="_blank" rel="noopener noreferrer" class="client-card">
             <div class="avatar-box">
-              <img src="./avatar-nathan.jpg" alt="Photo de profil de Nathan Adrassé" width="46" height="46" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='inline';">
               <span class="avatar-fallback mono" aria-hidden="true">NA</span>
             </div>
             <div class="client-details">
@@ -730,10 +626,8 @@
             </div>
           </a>
 
-          <!-- Remplace ./avatar-cam.jpg par l'adresse de l'image copiée sur YouTube -->
           <a href="https://www.youtube.com/@Cam_IX" target="_blank" rel="noopener noreferrer" class="client-card">
             <div class="avatar-box">
-              <img src="./avatar-cam.jpg" alt="Photo de profil de Cam" width="46" height="46" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='inline';">
               <span class="avatar-fallback mono" aria-hidden="true">CA</span>
             </div>
             <div class="client-details">
@@ -742,10 +636,8 @@
             </div>
           </a>
 
-          <!-- Remplace ./avatar-camnathan.jpg par l'adresse de l'image copiée sur YouTube -->
           <a href="https://www.youtube.com/@Cam_Nathan" target="_blank" rel="noopener noreferrer" class="client-card">
             <div class="avatar-box">
-              <img src="./avatar-camnathan.jpg" alt="Photo de profil de Cam et Nathan" width="46" height="46" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='inline';">
               <span class="avatar-fallback mono" aria-hidden="true">CN</span>
             </div>
             <div class="client-details">
@@ -772,7 +664,7 @@
           <article class="video-card">
             <div class="video-stage vertical">
               <button type="button" class="video-facade" data-id="rf3YMrjm8fQ" data-start="0" data-title="Five Pays avec @skensurvet - Nathan Adrassé">
-                <img src="https://i.ytimg.com/vi/rf3YMrjm8fQ/hqdefault.jpg" alt="Miniature du Short Five Pays de Nathan Adrassé" loading="lazy">
+                <img src="https://i.ytimg.com/vi/rf3YMrjm8fQ/maxresdefault.jpg" alt="Miniature du Short Five Pays de Nathan Adrassé" loading="lazy">
                 <span class="facade-top mono">
                   <span class="tc-badge">01:15</span>
                   <span class="tc-badge">9:16</span>
@@ -792,7 +684,7 @@
           <article class="video-card">
             <div class="video-stage vertical">
               <button type="button" class="video-facade" data-id="OsZM0LXTzsY" data-start="0" data-title="Un choix très difficile - Cam & Nathan">
-                <img src="https://i.ytimg.com/vi/OsZM0LXTzsY/hqdefault.jpg" alt="Miniature du Short Un choix très difficile de Cam et Nathan" loading="lazy">
+                <img src="https://i.ytimg.com/vi/OsZM0LXTzsY/maxresdefault.jpg" alt="Miniature du Short Un choix très difficile de Cam et Nathan" loading="lazy">
                 <span class="facade-top mono">
                   <span class="tc-badge">00:52</span>
                   <span class="tc-badge">9:16</span>
@@ -812,7 +704,7 @@
           <article class="video-card">
             <div class="video-stage vertical">
               <button type="button" class="video-facade" data-id="Pa5VnDDCVfc" data-start="0" data-title="Enchères joueurs avec Croshoot - Cam & Nathan">
-                <img src="https://i.ytimg.com/vi/Pa5VnDDCVfc/hqdefault.jpg" alt="Miniature du Short Enchères joueurs avec Croshoot de Cam et Nathan" loading="lazy">
+                <img src="https://i.ytimg.com/vi/Pa5VnDDCVfc/maxresdefault.jpg" alt="Miniature du Short Enchères joueurs avec Croshoot de Cam et Nathan" loading="lazy">
                 <span class="facade-top mono">
                   <span class="tc-badge">01:06</span>
                   <span class="tc-badge">9:16</span>
@@ -832,7 +724,7 @@
           <article class="video-card">
             <div class="video-stage vertical">
               <button type="button" class="video-facade" data-id="UfBrZrSE1XQ" data-start="0" data-title="Les jeux doivent-ils coûter plus cher ? - Cam">
-                <img src="https://i.ytimg.com/vi/UfBrZrSE1XQ/hqdefault.jpg" alt="Miniature du Short sur le prix des jeux vidéo de Cam" loading="lazy">
+                <img src="https://i.ytimg.com/vi/UfBrZrSE1XQ/maxresdefault.jpg" alt="Miniature du Short sur le prix des jeux vidéo de Cam" loading="lazy">
                 <span class="facade-top mono">
                   <span class="tc-badge">01:06</span>
                   <span class="tc-badge">9:16</span>
@@ -852,7 +744,7 @@
           <article class="video-card">
             <div class="video-stage vertical">
               <button type="button" class="video-facade" data-id="7vmh5EbxaCY" data-start="0" data-title="POV : Tu bats un boss en 2036 - Cam">
-                <img src="https://i.ytimg.com/vi/7vmh5EbxaCY/hqdefault.jpg" alt="Miniature du Short POV tu bats un boss en 2036 de Cam" loading="lazy">
+                <img src="https://i.ytimg.com/vi/7vmh5EbxaCY/maxresdefault.jpg" alt="Miniature du Short POV tu bats un boss en 2036 de Cam" loading="lazy">
                 <span class="facade-top mono">
                   <span class="tc-badge">01:05</span>
                   <span class="tc-badge">9:16</span>
@@ -868,8 +760,6 @@
               <h3 class="video-title">POV : Tu bats un boss en 2036</h3>
             </div>
           </article>
-
-          <!-- EMPLACEMENT : Colle ici tes autres Shorts déjà présents (hors WElt5jaFo_E, jRVzi0fE8yk, VnvOP5KSOE4, kw14eraQhn4) -->
         </div>
       </div>
     </section>
@@ -961,7 +851,7 @@
           <article class="video-card">
             <div class="video-stage horizontal">
               <button type="button" class="video-facade" data-id="VV_IQINIvfc" data-start="12" data-title="On s'envole à Dubaï avec ma sœur et @asmar270 - Ademgdy">
-                <img src="https://i.ytimg.com/vi/VV_IQINIvfc/maxresdefault.jpg" alt="Miniature du vlog départ à Dubaï de Ademgdy" loading="lazy">
+                <img src="https://i.ytimg.com/vi/VV_IQINIvfc/sddefault.jpg" alt="Miniature du vlog départ à Dubaï de Ademgdy" loading="lazy">
                 <span class="facade-top mono">
                   <span class="tc-badge">TC 00:00:12</span>
                   <span class="tc-badge">16:9</span>
@@ -981,7 +871,7 @@
           <article class="video-card">
             <div class="video-stage horizontal">
               <button type="button" class="video-facade" data-id="oNdw3AgqNoQ" data-start="538" data-title="Qui me connaît le mieux ft. @asmar270 - Ademgdy">
-                <img src="https://i.ytimg.com/vi/oNdw3AgqNoQ/maxresdefault.jpg" alt="Miniature de la vidéo Qui me connaît le mieux de Ademgdy" loading="lazy">
+                <img src="https://i.ytimg.com/vi/oNdw3AgqNoQ/sddefault.jpg" alt="Miniature de la vidéo Qui me connaît le mieux de Ademgdy" loading="lazy">
                 <span class="facade-top mono">
                   <span class="tc-badge">TC 00:08:58</span>
                   <span class="tc-badge">16:9</span>
@@ -998,11 +888,9 @@
             </div>
           </article>
 
-          <!-- EMPLACEMENT : Colle ici tes 2 vidéos longues déjà présentes -->
-
           <article class="video-card">
             <div class="video-stage horizontal">
-              <button type="button" class="video-facade" data-id="G4qnYbZVN1w" data-start="150" data-title="L'alternance : meilleure idée ou pure arnaque ? - Manaki">
+              <button type="button" class="video-facade" data-id="G4qnYbZVN1w" data-start="150" data-title="L'alternance : meilleure idée ou pure arnaque ? - Ma chaîne">
                 <img src="https://i.ytimg.com/vi/G4qnYbZVN1w/maxresdefault.jpg" alt="Miniature de la vidéo sur l'alternance de Manaki" loading="lazy">
                 <span class="facade-top mono">
                   <span class="tc-badge">TC 00:02:30</span>
@@ -1013,7 +901,7 @@
             </div>
             <div class="video-bar">
               <div class="video-bar-top mono">
-                <span class="video-creator">Manaki</span>
+                <span class="video-creator">Ma chaîne</span>
                 <span>#06</span>
               </div>
               <h3 class="video-title">L'alternance : meilleure idée ou pure arnaque ?</h3>
@@ -1025,49 +913,18 @@
 
     <!-- Contact -->
     <section id="contact">
-      <div class="container contact-grid">
+      <div class="container">
         <div class="contact-lead">
           <div class="section-title-wrap">
             <span class="section-index mono">04</span>
             <h2>Confier un montage</h2>
           </div>
           <p>Indique le format souhaité, le volume mensuel et le lien de ta chaîne. Réponse sous 24 heures.</p>
-          <a href="mailto:markop@laposte.net" class="mail-box mono">markop@laposte.net</a>
+          <div class="contact-actions">
+            <a href="mailto:markop@laposte.net?subject=Demande%20de%20montage&amp;body=Bonjour%2C%0D%0A%0D%0ALien%20de%20ma%20cha%C3%AEne%20%3A%20%0D%0AFormat%20(vid%C3%A9o%20longue%2C%20Shorts%20ou%20les%20deux)%20%3A%20%0D%0AVolume%20par%20mois%20%3A%20%0D%0AD%C3%A9lai%20souhait%C3%A9%20%3A%20%0D%0A%0D%0AD%C3%A9tails%20%3A%20%0D%0A" class="btn-primary">M'écrire par e-mail</a>
+            <span class="mail-box mono">markop@laposte.net</span>
+          </div>
         </div>
-
-        <form id="contactForm" novalidate>
-          <div class="field">
-            <label for="name">Nom ou pseudo</label>
-            <input type="text" id="name" name="name" required maxlength="80" autocomplete="name">
-            <span class="error-msg" id="errorName">Veuillez indiquer votre nom ou pseudo (2 caractères minimum).</span>
-          </div>
-
-          <div class="field">
-            <label for="email">Adresse e-mail</label>
-            <input type="email" id="email" name="email" required maxlength="120" autocomplete="email">
-            <span class="error-msg" id="errorEmail">Veuillez saisir une adresse e-mail valide.</span>
-          </div>
-
-          <div class="field">
-            <label for="format">Type de projet</label>
-            <select id="format" name="format" required>
-              <option value="">Sélectionner un format</option>
-              <option value="long">Vidéo longue YouTube</option>
-              <option value="short">Formats verticaux (Shorts / TikTok)</option>
-              <option value="pack">Accompagnement complet (Longs + Shorts)</option>
-            </select>
-            <span class="error-msg" id="errorFormat">Veuillez choisir un type de projet.</span>
-          </div>
-
-          <div class="field">
-            <label for="message">Détails du besoin (rushs, durée, délai)</label>
-            <textarea id="message" name="message" rows="4" required maxlength="1500"></textarea>
-            <span class="error-msg" id="errorMessage">Veuillez préciser votre besoin (10 caractères minimum).</span>
-          </div>
-
-          <button type="submit" class="btn-primary" id="submitBtn">Envoyer la demande</button>
-          <div class="form-status" id="formStatus" role="status" aria-live="polite"></div>
-        </form>
       </div>
     </section>
   </main>
@@ -1075,36 +932,10 @@
   <footer>
     <div class="container footer-row mono">
       <span>Marko Peric : Micro-entreprise de montage vidéo</span>
-      <div>
-        <a href="./mentions-legales.html">Mentions légales</a>
-      </div>
     </div>
   </footer>
 
-  <div class="cookie-banner" id="cookieBanner" role="dialog" aria-label="Gestion des cookies">
-    <div class="cookie-inner">
-      <span>Ce site utilise une mesure d'audience pour analyser les visites. Vous pouvez accepter ou refuser ce suivi.</span>
-      <div class="cookie-btns">
-        <button type="button" class="btn-cookie" id="cookieReject">Refuser</button>
-        <button type="button" class="btn-cookie accept" id="cookieAccept">Accepter</button>
-      </div>
-    </div>
-  </div>
-
   <script>
-    function escapeHTML(str) {
-      return str.replace(/[&<>'"]/g, function(tag) {
-        const chars = {
-          '&': '&amp;',
-          '<': '&lt;',
-          '>': '&gt;',
-          "'": '&#39;',
-          '"': '&quot;'
-        };
-        return chars[tag] || tag;
-      });
-    }
-
     // Chargement des lecteurs YouTube uniquement au clic avec validation stricte de l'identifiant
     (function() {
       const facades = document.querySelectorAll('.video-facade');
@@ -1141,99 +972,6 @@
           stage.appendChild(loader);
           stage.appendChild(iframe);
         });
-      });
-    })();
-
-    // Validation du formulaire et limitation des tentatives
-    (function() {
-      const form = document.getElementById('contactForm');
-      const statusBox = document.getElementById('formStatus');
-      const submitBtn = document.getElementById('submitBtn');
-      let lastSubmitTime = 0;
-
-      form.addEventListener('submit', function(e) {
-        e.preventDefault();
-
-        const now = Date.now();
-        if (now - lastSubmitTime < 15000) {
-          statusBox.style.display = 'block';
-          statusBox.textContent = 'Veuillez patienter quelques secondes avant de renvoyer un message.';
-          return;
-        }
-
-        const name = document.getElementById('name').value.trim();
-        const email = document.getElementById('email').value.trim();
-        const format = document.getElementById('format').value.trim();
-        const message = document.getElementById('message').value.trim();
-
-        let valid = true;
-
-        const errName = document.getElementById('errorName');
-        if (name.length < 2) {
-          errName.style.display = 'block';
-          valid = false;
-        } else {
-          errName.style.display = 'none';
-        }
-
-        const errEmail = document.getElementById('errorEmail');
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!emailRegex.test(email)) {
-          errEmail.style.display = 'block';
-          valid = false;
-        } else {
-          errEmail.style.display = 'none';
-        }
-
-        const errFormat = document.getElementById('errorFormat');
-        if (!format) {
-          errFormat.style.display = 'block';
-          valid = false;
-        } else {
-          errFormat.style.display = 'none';
-        }
-
-        const errMessage = document.getElementById('errorMessage');
-        if (message.length < 10) {
-          errMessage.style.display = 'block';
-          valid = false;
-        } else {
-          errMessage.style.display = 'none';
-        }
-
-        if (!valid) return;
-
-        lastSubmitTime = now;
-        submitBtn.disabled = true;
-        submitBtn.textContent = 'Préparation...';
-
-        const safeName = escapeHTML(name);
-        statusBox.style.display = 'block';
-        statusBox.textContent = 'Merci ' + safeName + '. Votre demande est prête. Redirection vers la confirmation...';
-
-        setTimeout(function() {
-          window.location.href = './confirmation.html';
-        }, 1200);
-      });
-    })();
-
-    // Bandeau cookies
-    (function() {
-      const banner = document.getElementById('cookieBanner');
-      const choice = localStorage.getItem('mp_cookie_consent');
-
-      if (!choice) {
-        banner.style.display = 'block';
-      }
-
-      document.getElementById('cookieAccept').addEventListener('click', function() {
-        localStorage.setItem('mp_cookie_consent', 'accepted');
-        banner.style.display = 'none';
-      });
-
-      document.getElementById('cookieReject').addEventListener('click', function() {
-        localStorage.setItem('mp_cookie_consent', 'rejected');
-        banner.style.display = 'none';
       });
     })();
   </script>
