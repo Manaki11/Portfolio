@@ -197,6 +197,19 @@
       background-size: 100% 12px, 100% 6px;
       background-position: 0 100%, 0 100%;
       background-repeat: no-repeat;
+      cursor: pointer;
+      touch-action: none;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+
+    .ruler.scrubbing {
+      cursor: ew-resize;
+    }
+
+    .ruler:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: -2px;
     }
 
     .ruler .tc {
@@ -211,9 +224,10 @@
       position: absolute;
       top: 0;
       bottom: 0;
-      left: 14%;
+      left: 0;
       width: 14px;
       margin-left: -6px;
+      pointer-events: none;
     }
 
     .playhead::before {
@@ -234,22 +248,6 @@
       border-left: 7px solid transparent;
       border-right: 7px solid transparent;
       border-top: 10px solid var(--accent);
-    }
-
-    @supports (animation-timeline: scroll()) {
-      @media (prefers-reduced-motion: no-preference) {
-        .playhead {
-          left: 0;
-          animation: sweep linear both;
-          animation-timeline: scroll(root);
-        }
-      }
-    }
-
-    @keyframes sweep {
-      to {
-        left: calc(100% - 8px);
-      }
     }
 
     main {
@@ -895,9 +893,9 @@
       <a class="wtab" href="#longs" data-target="longs">Vidéos longues</a>
       <a class="wtab" href="#contact" data-target="contact">Contact</a>
     </nav>
-    <div class="ruler" aria-hidden="true">
-      <span class="tc mono" id="timecode">00:00:00:00</span>
-      <div class="playhead"></div>
+    <div class="ruler" id="ruler" role="slider" tabindex="0" aria-label="Position dans la page" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+      <span class="tc mono" id="timecode" aria-hidden="true">00:00:00:00</span>
+      <div class="playhead" id="playhead"></div>
     </div>
   </header>
 
@@ -1221,20 +1219,83 @@
         Object.keys(sections).forEach(function(key) { observer.observe(sections[key]); });
       }
 
-      // Timecode de la règle : suit la position de la tête de lecture (25 images/s, durée totale 2:00)
+      // Règle de timeline : la tête de lecture et le timecode suivent le défilement (25 images/s, durée totale 2:00)
+      var ruler = document.getElementById('ruler');
+      var playhead = document.getElementById('playhead');
       var tcEl = document.getElementById('timecode');
       var tcTotalFrames = 2 * 60 * 25;
       var tcTicking = false;
       function pad(n) { return (n < 10 ? '0' : '') + n; }
+      function maxScroll() {
+        return Math.max(0, document.documentElement.scrollHeight - window.innerHeight);
+      }
       function updateTimecode() {
         tcTicking = false;
-        var max = document.documentElement.scrollHeight - window.innerHeight;
+        var max = maxScroll();
         var progress = max > 0 ? Math.min(1, Math.max(0, window.scrollY / max)) : 0;
         var f = Math.round(progress * tcTotalFrames);
         var frames = f % 25;
         var s = Math.floor(f / 25);
-        tcEl.textContent = '00:' + pad(Math.floor(s / 60)) + ':' + pad(s % 60) + ':' + pad(frames);
+        var tc = '00:' + pad(Math.floor(s / 60)) + ':' + pad(s % 60) + ':' + pad(frames);
+        tcEl.textContent = tc;
+        playhead.style.left = (progress * (ruler.clientWidth - 8)) + 'px';
+        ruler.setAttribute('aria-valuenow', Math.round(progress * 100));
+        ruler.setAttribute('aria-valuetext', tc);
       }
+
+      // Scrub comme dans Premiere Pro : cliquer ou glisser sur la règle déplace la page
+      function scrollToProgress(progress) {
+        progress = Math.min(1, Math.max(0, progress));
+        window.scrollTo({ top: progress * maxScroll(), behavior: 'instant' });
+        updateTimecode();
+      }
+      function scrubAt(clientX) {
+        var rect = ruler.getBoundingClientRect();
+        scrollToProgress((clientX - rect.left) / Math.max(1, rect.width - 8));
+      }
+      ruler.addEventListener('pointerdown', function(e) {
+        if (e.button !== 0) return;
+        e.preventDefault();
+        ruler.setPointerCapture(e.pointerId);
+        ruler.classList.add('scrubbing');
+        scrubAt(e.clientX);
+      });
+      ruler.addEventListener('pointermove', function(e) {
+        if (ruler.hasPointerCapture(e.pointerId)) scrubAt(e.clientX);
+      });
+      function endScrub(e) {
+        if (ruler.hasPointerCapture(e.pointerId)) ruler.releasePointerCapture(e.pointerId);
+        ruler.classList.remove('scrubbing');
+      }
+      ruler.addEventListener('pointerup', endScrub);
+      ruler.addEventListener('pointercancel', endScrub);
+
+      // Molette sur la règle : défilement horizontal ou vertical, comme sur une timeline
+      ruler.addEventListener('wheel', function(e) {
+        var delta = Math.abs(e.deltaX) > Math.abs(e.deltaY) ? e.deltaX : e.deltaY;
+        if (!delta) return;
+        e.preventDefault();
+        window.scrollBy({ top: delta, behavior: 'instant' });
+      }, { passive: false });
+
+      // Clavier : flèches = 5 images, Maj + flèches = une seconde, Page préc. / suiv., Début / Fin
+      ruler.addEventListener('keydown', function(e) {
+        var max = maxScroll();
+        if (!max) return;
+        var progress = window.scrollY / max;
+        var step = (e.shiftKey ? 25 : 5) / tcTotalFrames;
+        switch (e.key) {
+          case 'ArrowRight': case 'ArrowUp': progress += step; break;
+          case 'ArrowLeft': case 'ArrowDown': progress -= step; break;
+          case 'PageDown': progress += 0.1; break;
+          case 'PageUp': progress -= 0.1; break;
+          case 'Home': progress = 0; break;
+          case 'End': progress = 1; break;
+          default: return;
+        }
+        e.preventDefault();
+        scrollToProgress(progress);
+      });
       window.addEventListener('scroll', function() {
         if (!tcTicking) {
           tcTicking = true;
