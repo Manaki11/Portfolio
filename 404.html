@@ -7,54 +7,92 @@
   <meta name="description" content="Cette page n'existe pas ou a été déplacée.">
   <meta name="robots" content="noindex">
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src data:; base-uri 'self'">
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%230b0d10'/%3E%3Crect x='15' y='5' width='2' height='22' fill='%235b9bff'/%3E%3Cpath d='M11 5h10l-5 5z' fill='%235b9bff'/%3E%3C/svg%3E">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23141414'/%3E%3Crect x='15' y='5' width='2' height='22' fill='%232d8ceb'/%3E%3Cpath d='M11 5h10l-5 5z' fill='%232d8ceb'/%3E%3C/svg%3E">
+  <meta name="theme-color" content="#141414">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..700&family=IBM+Plex+Mono:wght@400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700&family=Source+Code+Pro:wght@400;500&display=swap" rel="stylesheet">
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
-    html, body { background-color: #0b0d10; color: #e8eaed; }
+    html, body { background-color: #141414; color: #d9d9d9; }
     body {
-      font-family: 'Archivo', system-ui, sans-serif;
+      font-family: 'Source Sans 3', system-ui, sans-serif;
+      line-height: 1.5;
       min-height: 100vh;
       display: flex;
       align-items: center;
-      padding: 40px 20px;
+      padding: 40px 16px;
     }
-    main { max-width: 560px; margin: 0 auto; width: 100%; }
+    main {
+      max-width: 560px;
+      margin: 0 auto;
+      width: 100%;
+      background: #1e1e1e;
+      border-radius: 6px;
+      overflow: hidden;
+    }
+    .ptabs {
+      display: flex;
+      align-items: center;
+      min-height: 36px;
+      background: #232323;
+      border-bottom: 1px solid #121212;
+    }
+    .ptab {
+      height: 36px;
+      padding: 0 14px;
+      display: flex;
+      align-items: center;
+      font-size: 13px;
+      font-weight: 600;
+      color: #e6e6e6;
+      background: #1e1e1e;
+      border-bottom: 2px solid #1473e6;
+    }
+    .body { padding: 32px; }
     .tc {
-      font-family: 'IBM Plex Mono', ui-monospace, monospace;
-      color: #5b9bff;
+      font-family: 'Source Code Pro', ui-monospace, monospace;
+      color: color-mix(in srgb, #1473e6 65%, white);
       font-size: 0.85rem;
       display: block;
       margin-bottom: 14px;
     }
     h1 {
-      font-stretch: 72%;
-      font-weight: 650;
+      font-weight: 700;
       text-transform: uppercase;
-      font-size: clamp(2.2rem, 7vw, 3.4rem);
-      line-height: 0.98;
+      font-size: clamp(2rem, 7vw, 3.2rem);
+      line-height: 1;
+      letter-spacing: -0.01em;
+      color: #fff;
       margin-bottom: 16px;
     }
-    p { color: #8b929c; margin-bottom: 28px; line-height: 1.55; }
+    p { color: #a3a3a3; margin-bottom: 28px; font-size: 1.0625rem; }
     a {
-      display: inline-block;
-      background-color: #5b9bff;
-      color: #0b0d10;
+      display: inline-flex;
+      align-items: center;
+      min-height: 44px;
+      background-color: #1473e6;
+      color: #fff;
       text-decoration: none;
-      font-weight: 600;
-      padding: 13px 22px;
+      font-weight: 700;
+      font-size: 15px;
+      padding: 0 22px;
+      border-radius: 22px;
     }
-    a:focus-visible { outline: 2px solid #5b9bff; outline-offset: 3px; }
+    a:hover { filter: brightness(1.15); }
+    a:focus-visible { outline: 2px solid #7bb8ff; outline-offset: 2px; }
+    @media (max-width: 600px) { .body { padding: 28px 20px; } }
   </style>
 </head>
 <body>
   <main>
-    <span class="tc">Erreur 404</span>
-    <h1>Cette page n'existe pas</h1>
-    <p>Le lien est peut-être incomplet, ou la page a été déplacée.</p>
-    <a href="https://manaki11.github.io/Portfolio/">Retour au portfolio</a>
+    <div class="ptabs"><span class="ptab">Erreur 404</span></div>
+    <div class="body">
+      <span class="tc">00:00:00:00</span>
+      <h1>Cette page n'existe pas</h1>
+      <p>Le lien est peut-être incomplet, ou la page a été déplacée.</p>
+      <a href="https://manaki11.github.io/Portfolio/">Retour au portfolio</a>
+    </div>
   </main>
 </body>
 </html>

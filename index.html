@@ -21,24 +21,31 @@
   <meta property="og:image:alt" content="Marko Peric, monteur vidéo YouTube">
   <meta name="twitter:card" content="summary_large_image">
 
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%230b0d10'/%3E%3Crect x='15' y='5' width='2' height='22' fill='%235b9bff'/%3E%3Cpath d='M11 5h10l-5 5z' fill='%235b9bff'/%3E%3C/svg%3E">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23141414'/%3E%3Crect x='15' y='5' width='2' height='22' fill='%232d8ceb'/%3E%3Cpath d='M11 5h10l-5 5z' fill='%232d8ceb'/%3E%3C/svg%3E">
   <link rel="apple-touch-icon" href="./apple-touch-icon.png">
-  <meta name="theme-color" content="#0b0d10">
+  <meta name="theme-color" content="#141414">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700&family=Source+Code+Pro:wght@400;500&display=swap" rel="stylesheet">
 
   <style>
     :root {
-      --bg: #0b0d10;
-      --surface: #12151a;
-      --line: #1f242c;
-      --line-strong: #2b313a;
-      --text: #e8eaed;
-      --muted: #8b929c;
-      --blue: #5b9bff;
-      --header-h: 61px;
+      --bg: #141414;
+      --bar: #161616;
+      --panel: #1e1e1e;
+      --panel-head: #232323;
+      --field: #2c2c2c;
+      --line: #262626;
+      --line-dark: #0b0b0b;
+      --line-strong: #4a4a4a;
+      --text: #d9d9d9;
+      --strong: #f0f0f0;
+      --muted: #a3a3a3;
+      --accent: #1473e6;
+      --accent-text: color-mix(in srgb, var(--accent) 65%, white);
+      --selected: #2b3f5c;
+      --header-h: 108px;
     }
 
     * {
@@ -50,9 +57,9 @@
     html {
       background-color: var(--bg);
       color: var(--text);
-      font-family: 'Archivo', system-ui, sans-serif;
+      font-family: 'Source Sans 3', system-ui, sans-serif;
       font-size: 100%;
-      line-height: 1.55;
+      line-height: 1.5;
       -webkit-text-size-adjust: 100%;
     }
 
@@ -65,180 +72,328 @@
     body {
       background-color: var(--bg);
       min-width: 320px;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
     }
 
     a {
       color: inherit;
+      text-decoration: none;
+    }
+
+    button {
+      font: inherit;
+      color: inherit;
     }
 
     :focus-visible {
-      outline: 2px solid var(--blue);
-      outline-offset: 3px;
+      outline: 2px solid #7bb8ff;
+      outline-offset: 2px;
     }
 
     .mono {
-      font-family: 'IBM Plex Mono', ui-monospace, monospace;
+      font-family: 'Source Code Pro', ui-monospace, monospace;
       font-variant-numeric: tabular-nums;
-    }
-
-    .container {
-      width: 100%;
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 0 20px;
     }
 
     .skip-link {
       position: absolute;
       left: 12px;
       top: -48px;
-      background: var(--blue);
-      color: var(--bg);
+      background: var(--accent);
+      color: #fff;
       padding: 8px 14px;
       z-index: 100;
-      font-weight: 600;
+      font-weight: 700;
+      border-radius: 4px;
     }
 
     .skip-link:focus {
       top: 12px;
     }
 
-    /* En-tête et tête de lecture */
+    /* Barre de titre, espaces de travail et règle de timeline */
     header {
       position: sticky;
       top: 0;
       z-index: 40;
-      background-color: var(--bg);
-      border-bottom: 1px solid var(--line);
+      background: #1a1a1a;
+      border-bottom: 1px solid var(--line-dark);
     }
 
-    .nav-bar {
+    .titlebar {
       display: flex;
-      justify-content: space-between;
       align-items: center;
       gap: 16px;
-      height: var(--header-h);
+      height: 36px;
+      padding: 0 16px;
+      background: var(--bar);
+      border-bottom: 1px solid var(--line-dark);
+      font-size: 13px;
+      color: #b4b4b4;
     }
 
-    .brand {
-      font-weight: 600;
-      font-stretch: 75%;
-      font-size: 1.15rem;
-      letter-spacing: 0.04em;
-      text-transform: uppercase;
-      text-decoration: none;
+    .mark {
+      width: 22px;
+      height: 22px;
+      border-radius: 4px;
+      border: 2px solid var(--accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--accent-text);
+      flex: none;
+    }
+
+    .titlebar .where {
+      margin-left: auto;
+      font-size: 12px;
+      color: #8c8c8c;
     }
 
     nav {
       display: flex;
-      gap: 22px;
-      font-size: 0.92rem;
+      padding: 0 8px;
+      overflow-x: auto;
+      scrollbar-width: none;
     }
 
-    nav a {
-      color: var(--muted);
-      text-decoration: none;
-    }
-
-    nav a:hover {
-      color: var(--text);
-    }
-
-    .playhead {
+    nav::-webkit-scrollbar {
       display: none;
     }
 
+    .wtab {
+      flex: none;
+      height: 44px;
+      padding: 0 16px;
+      display: flex;
+      align-items: center;
+      font-size: 14px;
+      color: #a8a8a8;
+      border-bottom: 2px solid transparent;
+    }
+
+    .wtab:hover {
+      color: #fff;
+      background: #2a2a2a;
+    }
+
+    .wtab.on {
+      color: #fff;
+      border-bottom-color: var(--accent);
+    }
+
+    .ruler {
+      position: relative;
+      height: 26px;
+      background-color: var(--panel);
+      border-top: 1px solid var(--line-dark);
+      background-image:
+        repeating-linear-gradient(90deg, #4a4a4a 0 1px, transparent 1px 60px),
+        repeating-linear-gradient(90deg, #3a3a3a 0 1px, transparent 1px 12px);
+      background-size: 100% 12px, 100% 6px;
+      background-position: 0 100%, 0 100%;
+      background-repeat: no-repeat;
+    }
+
+    .ruler .tc {
+      position: absolute;
+      left: 16px;
+      top: 3px;
+      font-size: 12px;
+      color: var(--accent-text);
+    }
+
+    .playhead {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 14%;
+      width: 14px;
+      margin-left: -6px;
+    }
+
+    .playhead::before {
+      content: "";
+      position: absolute;
+      left: 6px;
+      top: 0;
+      bottom: 0;
+      width: 2px;
+      background: var(--accent);
+    }
+
+    .playhead::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0;
+      border-left: 7px solid transparent;
+      border-right: 7px solid transparent;
+      border-top: 10px solid var(--accent);
+    }
+
     @supports (animation-timeline: scroll()) {
-      .playhead {
-        display: block;
-        position: absolute;
-        left: 0;
-        bottom: -1px;
-        width: 100%;
-        height: 2px;
-        background-color: var(--blue);
-        transform-origin: 0 50%;
-        transform: scaleX(0);
-        animation: playhead linear both;
-        animation-timeline: scroll(root);
+      @media (prefers-reduced-motion: no-preference) {
+        .playhead {
+          left: 0;
+          animation: sweep linear both;
+          animation-timeline: scroll(root);
+        }
       }
     }
 
-    @keyframes playhead {
+    @keyframes sweep {
       to {
-        transform: scaleX(1);
+        left: calc(100% - 8px);
       }
+    }
+
+    main {
+      padding: 8px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      max-width: 1600px;
+      width: 100%;
+      margin: 0 auto;
     }
 
     main section {
       scroll-margin-top: var(--header-h);
     }
 
-    /* Premier écran */
-    .hero {
-      padding: 56px 0 64px;
-      border-bottom: 1px solid var(--line);
+    /* Panneaux */
+    .panel {
+      background: var(--panel);
+      border-radius: 6px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
     }
 
+    .ptabs {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-height: 36px;
+      background: var(--panel-head);
+      border-bottom: 1px solid #121212;
+      padding-right: 12px;
+    }
+
+    .ptab {
+      height: 36px;
+      padding: 0 14px;
+      display: flex;
+      align-items: center;
+      flex: none;
+      font-size: 13px;
+      font-weight: 600;
+      color: #e6e6e6;
+      background: var(--panel);
+      border-bottom: 2px solid var(--accent);
+    }
+
+    .ptab-r {
+      margin-left: auto;
+      font-size: 12px;
+      color: #9b9b9b;
+      text-align: right;
+    }
+
+    /* Boutons façon Spectrum */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 44px;
+      padding: 0 22px;
+      border-radius: 22px;
+      border: 2px solid transparent;
+      font-family: inherit;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .btn-primary {
+      background-color: var(--accent);
+      border-color: var(--accent);
+      color: #fff;
+    }
+
+    .btn-primary:hover {
+      filter: brightness(1.15);
+    }
+
+    .btn-secondary {
+      background-color: transparent;
+      color: #e6e6e6;
+      border-color: #6e6e6e;
+    }
+
+    .btn-secondary:hover {
+      background-color: var(--field);
+      border-color: #b0b0b0;
+    }
+
+    .ibtn {
+      width: 44px;
+      height: 44px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: transparent;
+      border: 0;
+      border-radius: 4px;
+      color: #c9c9c9;
+      cursor: pointer;
+    }
+
+    .ibtn:hover {
+      background: #333;
+      color: #fff;
+    }
+
+    /* Premier écran */
     .hero-grid {
       display: grid;
-      grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr);
-      gap: 48px;
-      align-items: center;
+      grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr));
+      gap: 8px;
+    }
+
+    .hero-text {
+      padding: 40px 32px 32px;
+      display: flex;
+      flex-direction: column;
+      gap: 22px;
+      flex: 1;
+      justify-content: center;
     }
 
     .hero h1 {
-      font-stretch: 72%;
-      font-weight: 650;
-      font-size: clamp(2.3rem, 5.2vw, 4.2rem);
-      line-height: 0.98;
+      font-size: clamp(2.1rem, 4.6vw, 3.75rem);
+      line-height: 1;
+      font-weight: 700;
       text-transform: uppercase;
-      letter-spacing: 0.005em;
-      margin-bottom: 22px;
+      letter-spacing: -0.01em;
+      color: #fff;
     }
 
     .hero-lead {
+      font-size: 1.125rem;
       color: var(--muted);
-      font-size: 1.08rem;
       max-width: 34em;
-      margin-bottom: 30px;
     }
 
     .actions {
       display: flex;
       flex-wrap: wrap;
       gap: 12px;
-    }
-
-    .btn {
-      display: inline-block;
-      padding: 13px 22px;
-      font: inherit;
-      font-size: 0.95rem;
-      font-weight: 600;
-      text-decoration: none;
-      cursor: pointer;
-      border: 1px solid var(--blue);
-    }
-
-    .btn-primary {
-      background-color: var(--blue);
-      color: var(--bg);
-    }
-
-    .btn-primary:hover {
-      background-color: #7fb1ff;
-      border-color: #7fb1ff;
-    }
-
-    .btn-secondary {
-      background-color: transparent;
-      color: var(--text);
-      border-color: var(--line-strong);
-    }
-
-    .btn-secondary:hover {
-      border-color: var(--muted);
     }
 
     /* Lecteurs vidéo (chargés au clic) */
@@ -255,6 +410,11 @@
 
     .stage.v {
       aspect-ratio: 9 / 16;
+      border-radius: 3px;
+    }
+
+    .stage.h.round {
+      border-radius: 3px;
     }
 
     .facade {
@@ -276,31 +436,47 @@
       display: block;
     }
 
+    .facade:hover img {
+      filter: brightness(1.12);
+    }
+
     .play {
       position: absolute;
-      left: 12px;
+      left: 10px;
       bottom: 12px;
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      background-color: rgba(11, 13, 16, 0.92);
+      background-color: rgba(13, 13, 13, 0.92);
       border: 1px solid var(--line-strong);
-      padding: 7px 12px;
-      font-size: 0.78rem;
+      border-radius: 4px;
+      padding: 5px 10px;
+      font-size: 12px;
+      color: #e6e6e6;
     }
 
     .play::before {
       content: "";
       width: 0;
       height: 0;
-      border-top: 5px solid transparent;
-      border-bottom: 5px solid transparent;
-      border-left: 8px solid var(--blue);
+      border-top: 6px solid transparent;
+      border-bottom: 6px solid transparent;
+      border-left: 10px solid #4b9bff;
     }
 
     .facade:hover .play,
     .facade:focus-visible .play {
-      border-color: var(--blue);
+      border-color: var(--accent);
+      background-color: #0d0d0d;
+    }
+
+    .clip-bar {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: 4px;
+      background: var(--clip, var(--accent));
     }
 
     .stage iframe {
@@ -323,183 +499,318 @@
       z-index: 1;
     }
 
+    /* Transport du moniteur */
+    .transport {
+      padding: 6px 12px 4px;
+    }
+
+    .scrub {
+      position: relative;
+      height: 14px;
+      margin: 4px 0;
+    }
+
+    .scrub .track,
+    .scrub .done {
+      position: absolute;
+      left: 0;
+      top: 6px;
+      height: 3px;
+      border-radius: 2px;
+    }
+
+    .scrub .track {
+      right: 0;
+      background: #3a3a3a;
+    }
+
+    .scrub .done {
+      width: 68.5%;
+      background: var(--accent);
+    }
+
+    .scrub .knob {
+      position: absolute;
+      left: calc(68.5% - 6px);
+      top: 0;
+      width: 12px;
+      height: 14px;
+      background: var(--accent);
+      clip-path: polygon(0 0, 100% 0, 100% 55%, 50% 100%, 0 55%);
+    }
+
+    .transport-row {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .transport-row .tc-cur {
+      font-size: 14px;
+      color: var(--accent-text);
+      min-width: 96px;
+    }
+
+    .transport-row .tc-end {
+      font-size: 14px;
+      color: #9b9b9b;
+      min-width: 96px;
+      text-align: right;
+    }
+
+    .transport-row .mid {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+    }
+
+    /* Légendes */
     .caption {
-      padding: 12px 0 0;
+      padding: 10px 0 0;
+    }
+
+    .hero .caption {
+      padding: 10px 16px 16px;
+      margin-top: 4px;
+      border-top: 1px solid var(--line);
     }
 
     .caption-meta {
       display: flex;
       justify-content: space-between;
       gap: 12px;
-      font-size: 0.76rem;
-      color: var(--muted);
+      font-size: 12px;
+      color: #9b9b9b;
     }
 
     .channel {
-      color: var(--blue);
+      color: var(--accent-text);
     }
 
     .caption h2,
     .caption h3 {
-      font-size: 1rem;
-      font-weight: 500;
-      line-height: 1.35;
+      font-size: 1.0625rem;
+      font-weight: 600;
+      line-height: 1.3;
       margin-top: 4px;
+      color: var(--strong);
+    }
+
+    .hero .caption h2 {
+      font-size: 1.125rem;
+      color: #fff;
     }
 
     .caption p {
       color: var(--muted);
-      font-size: 0.9rem;
+      font-size: 0.9375rem;
       margin-top: 6px;
     }
 
-    .hero .caption h2 {
-      font-size: 1.15rem;
+    /* Chaînes : liste façon panneau Projet */
+    .bin-info {
+      padding: 6px 14px;
+      background: #1b1b1b;
+      border-bottom: 1px solid #121212;
+      font-size: 12px;
+      color: #8c8c8c;
     }
 
-    /* Sections */
-    section {
-      padding: 64px 0;
-      border-bottom: 1px solid var(--line);
-    }
-
-    .section-head {
-      display: flex;
-      justify-content: space-between;
-      align-items: baseline;
-      flex-wrap: wrap;
-      gap: 8px 16px;
-      margin-bottom: 28px;
-    }
-
-    .section-head h2 {
-      font-stretch: 75%;
-      font-weight: 600;
-      font-size: clamp(1.6rem, 3vw, 2.2rem);
-      text-transform: uppercase;
-      line-height: 1;
-    }
-
-    .section-head p {
-      color: var(--muted);
-      font-size: 0.92rem;
-    }
-
-    /* Chaînes */
     .channels {
       list-style: none;
+    }
+
+    .row {
       display: grid;
-      grid-template-columns: repeat(5, minmax(0, 1fr));
-      border-top: 1px solid var(--line);
+      grid-template-columns: 28px minmax(0, 1.2fr) minmax(0, 1fr) minmax(0, 7em) 28px;
+      align-items: center;
+      gap: 12px;
+      padding: 0 14px;
+      min-height: 44px;
+      border-bottom: 1px solid var(--line);
+      font-size: 14px;
     }
 
-    .channels li + li {
-      border-left: 1px solid var(--line);
+    a.row:hover {
+      background: var(--selected);
     }
 
-    .channels a {
+    .row-head {
+      min-height: 30px;
+      font-size: 12px;
+      color: #8c8c8c;
+      background: var(--panel-head);
+      border-bottom: 1px solid #121212;
+    }
+
+    .row-head span:nth-child(4) {
+      text-align: right;
+    }
+
+    .chip {
       display: block;
-      padding: 18px 16px;
-      text-decoration: none;
-    }
-
-    .channels a:hover .ch-name {
-      color: var(--blue);
+      width: 16px;
+      height: 12px;
+      border-radius: 2px;
     }
 
     .ch-name {
-      display: block;
       font-weight: 600;
-      font-size: 1.02rem;
+      color: var(--strong);
     }
 
     .ch-handle {
-      display: block;
-      color: var(--muted);
-      font-size: 0.78rem;
-      margin-top: 2px;
+      font-size: 13px;
+      color: #9b9b9b;
+    }
+
+    .ch-subs {
+      font-size: 13px;
+      text-align: right;
+      color: var(--accent-text);
     }
 
     /* Grilles */
     .shorts-grid {
       display: grid;
-      grid-template-columns: repeat(5, minmax(0, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(min(100%, 170px), 1fr));
       gap: 16px;
       list-style: none;
+      padding: 16px;
     }
 
     .longs-grid {
       display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 40px 24px;
+      grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr));
+      gap: 32px 16px;
       list-style: none;
+      padding: 16px;
     }
 
     .longs-grid .wide {
       grid-column: 1 / -1;
       display: grid;
-      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr));
       gap: 24px;
       align-items: center;
+      padding-top: 16px;
+      border-top: 1px solid var(--line);
     }
 
     .longs-grid .wide .caption {
       padding: 0;
     }
 
+    .longs-grid .wide h3 {
+      font-size: 1.25rem;
+      color: #fff;
+    }
+
     /* Contact */
     .contact-grid {
       display: grid;
-      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-      gap: 48px;
+      grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr));
+      gap: 8px;
+    }
+
+    .contact-body {
+      padding: 32px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .contact-body h2 {
+      font-size: clamp(1.75rem, 3.2vw, 2.5rem);
+      line-height: 1.05;
+      text-transform: uppercase;
+      font-weight: 700;
+      color: #fff;
     }
 
     .contact-lead {
       color: var(--muted);
-      margin-bottom: 24px;
+      font-size: 1.0625rem;
       max-width: 34em;
-    }
-
-    .workflow {
-      border-top: 1px solid var(--line);
-    }
-
-    .workflow div {
-      display: grid;
-      grid-template-columns: 11em minmax(0, 1fr);
-      gap: 16px;
-      padding: 14px 0;
-      border-bottom: 1px solid var(--line);
-      font-size: 0.95rem;
-    }
-
-    .workflow dt {
-      color: var(--muted);
     }
 
     .copy-status {
       display: block;
       min-height: 1.4em;
-      margin-top: 10px;
-      font-size: 0.85rem;
-      color: var(--muted);
+      font-size: 0.875rem;
+      color: var(--accent-text);
     }
 
-    /* Pied de page */
+    .workflow {
+      padding: 24px 24px 28px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .workflow div {
+      display: grid;
+      grid-template-columns: minmax(0, 10em) minmax(0, 1fr);
+      gap: 12px;
+      align-items: center;
+    }
+
+    .workflow dt {
+      font-size: 14px;
+      color: #9b9b9b;
+    }
+
+    .field {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      min-height: 36px;
+      padding: 0 12px;
+      background: var(--field);
+      border: 1px solid var(--line-strong);
+      border-radius: 4px;
+      font-size: 14px;
+      color: #ececec;
+    }
+
+    /* Barre d'état */
     footer {
-      padding: 32px 0 48px;
-      font-size: 0.88rem;
-      color: var(--muted);
+      margin-top: auto;
+      background: var(--bar);
+      border-top: 1px solid var(--line-dark);
+      font-size: 13px;
+      color: #9b9b9b;
+    }
+
+    .statusbar {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px 16px;
+      min-height: 36px;
+      padding: 6px 16px;
+    }
+
+    .statusbar .links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px 20px;
     }
 
     footer summary {
       cursor: pointer;
-      color: var(--text);
       width: fit-content;
+      text-decoration: underline;
+    }
+
+    footer details {
+      padding: 0 16px 16px;
     }
 
     .legal {
-      margin-top: 16px;
+      margin-top: 12px;
       max-width: 52em;
     }
 
@@ -509,88 +820,61 @@
 
     .legal strong {
       color: var(--text);
-      font-weight: 500;
+      font-weight: 600;
     }
 
-    .footer-row {
-      display: flex;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      gap: 12px;
-      margin-bottom: 16px;
-    }
-
-    /* Tablettes et téléphones : chaînes en liste, Shorts en bande horizontale */
+    /* Tablettes et téléphones */
     @media (max-width: 860px) {
-      .channels {
-        grid-template-columns: minmax(0, 1fr);
-      }
-      .channels li + li {
-        border-left: 0;
-        border-top: 1px solid var(--line);
-      }
-      .channels a {
-        display: flex;
-        justify-content: space-between;
-        align-items: baseline;
-        gap: 12px;
-        padding: 14px 0;
-      }
-      .ch-handle {
-        margin-top: 0;
-      }
       .shorts-grid {
         display: flex;
         overflow-x: auto;
         scroll-snap-type: x mandatory;
         gap: 12px;
-        margin: 0 -20px;
-        padding: 0 20px 8px;
-        scroll-padding: 0 20px;
+        padding: 16px 16px 20px;
       }
       .shorts-grid > li {
         flex: 0 0 34%;
         scroll-snap-align: start;
       }
-      .hero-grid,
-      .contact-grid,
-      .longs-grid,
-      .longs-grid .wide {
-        grid-template-columns: minmax(0, 1fr);
-      }
-      .longs-grid .wide .caption {
-        padding: 12px 0 0;
-      }
-      .longs-grid .wide {
-        gap: 0;
-      }
     }
 
-    /* Téléphones : Shorts en bande horizontale */
     @media (max-width: 600px) {
-      .hero {
-        padding: 36px 0 48px;
-      }
-      section {
-        padding: 48px 0;
-      }
-      nav {
-        gap: 16px;
-        font-size: 0.86rem;
-      }
-      .nav-long {
+      .titlebar .where {
         display: none;
+      }
+      .hero-text,
+      .contact-body {
+        padding: 28px 20px;
       }
       .shorts-grid > li {
         flex: 0 0 64%;
       }
       .actions .btn {
         flex: 1 1 100%;
-        text-align: center;
+      }
+      .row {
+        grid-template-columns: 20px minmax(0, 1fr) auto 20px;
+      }
+      .row .ch-handle {
+        display: none;
+      }
+      .row-head span:nth-child(3) {
+        display: none;
+      }
+      .workflow {
+        padding: 20px;
       }
       .workflow div {
         grid-template-columns: minmax(0, 1fr);
-        gap: 2px;
+        gap: 4px;
+      }
+      .ptab-r {
+        display: none;
+      }
+      .transport-row .tc-cur,
+      .transport-row .tc-end {
+        min-width: 0;
+        font-size: 12px;
       }
     }
   </style>
@@ -599,21 +883,29 @@
   <a class="skip-link" href="#travaux">Aller aux montages</a>
 
   <header>
-    <div class="container nav-bar">
-      <a href="#" class="brand">Marko Peric</a>
-      <nav aria-label="Navigation principale">
-        <a href="#shorts">Shorts</a>
-        <a href="#longs"><span class="nav-long">Vidéos </span>longues</a>
-        <a href="#contact">Contact</a>
-      </nav>
+    <div class="titlebar">
+      <span class="mark" aria-hidden="true">MP</span>
+      <span>Marko Peric — Portfolio</span>
+      <span class="where mono">Belfort · à distance</span>
     </div>
-    <div class="playhead" aria-hidden="true"></div>
+    <nav aria-label="Navigation principale">
+      <a class="wtab on" href="#titre-section" data-target="travaux">Travaux</a>
+      <a class="wtab" href="#chaines" data-target="chaines">Chaînes</a>
+      <a class="wtab" href="#shorts" data-target="shorts">Shorts</a>
+      <a class="wtab" href="#longs" data-target="longs">Vidéos longues</a>
+      <a class="wtab" href="#contact" data-target="contact">Contact</a>
+    </nav>
+    <div class="ruler" aria-hidden="true">
+      <span class="tc mono" id="timecode">00:00:00:00</span>
+      <div class="playhead"></div>
+    </div>
   </header>
 
   <main id="travaux">
-    <section class="hero" aria-labelledby="titre">
-      <div class="container hero-grid">
-        <div>
+    <section class="hero hero-grid" id="titre-section" aria-labelledby="titre">
+      <div class="panel">
+        <div class="ptabs"><span class="ptab">Contrôle des effets</span><span class="ptab-r mono">Montage vidéo</span></div>
+        <div class="hero-text">
           <h1 id="titre">Monteur vidéo pour chaînes YouTube de divertissement</h1>
           <p class="hero-lead">Vidéos longues, vlogs, concepts et Shorts : découpe, rythme, sound design et sous-titres. Basé à Belfort, je travaille à distance.</p>
           <div class="actions">
@@ -621,188 +913,199 @@
             <a href="#longs" class="btn btn-secondary">Voir les montages</a>
           </div>
         </div>
+      </div>
 
-        <figure>
-          <div class="stage h">
-            <button type="button" class="facade" data-id="S-SFaL1Wtbo" data-start="1570" data-title="Interrogatoire sous détecteur de mensonge avec @ademgdy, chaîne Asmar">
+      <figure class="panel">
+        <div class="ptabs"><span class="ptab">Moniteur de programme</span><span class="ptab-r mono">Asmar ft. Ademgdy</span></div>
+        <div style="padding: 12px 12px 0;">
+          <div class="stage h round">
+            <button type="button" class="facade" id="hero-facade" data-id="S-SFaL1Wtbo" data-start="1570" data-title="Interrogatoire sous détecteur de mensonge avec @ademgdy, chaîne Asmar">
               <img src="https://i.ytimg.com/vi/S-SFaL1Wtbo/maxresdefault.jpg" alt="Miniature : Interrogatoire sous détecteur de mensonge, chaîne Asmar" width="1280" height="720" fetchpriority="high">
               <span class="play mono">Lire à 26:10</span>
             </button>
           </div>
-          <figcaption class="caption">
-            <div class="caption-meta mono"><span class="channel">Asmar ft. Ademgdy</span><span>38:12</span></div>
-            <h2>Interrogatoire sous détecteur de mensonge</h2>
-            <p>Face-cam en duo : rythme comique, zooms de réaction et habillage sonore pour tenir la tension sur 38 minutes.</p>
-          </figcaption>
-        </figure>
-      </div>
-    </section>
-
-    <section id="chaines" aria-labelledby="titre-chaines">
-      <div class="container">
-        <div class="section-head">
-          <h2 id="titre-chaines">Chaînes</h2>
-          <p>Les créateurs pour qui j'ai monté.</p>
         </div>
-        <ul class="channels">
-          <li><a href="https://www.youtube.com/@ademgdy" target="_blank" rel="noopener noreferrer"><span class="ch-name">Ademgdy</span><span class="ch-handle mono">@ademgdy</span></a></li>
-          <li><a href="https://www.youtube.com/@asmar270" target="_blank" rel="noopener noreferrer"><span class="ch-name">Asmar</span><span class="ch-handle mono">@asmar270</span></a></li>
-          <li><a href="https://www.youtube.com/@NathanAdrasse" target="_blank" rel="noopener noreferrer"><span class="ch-name">Nathan Adrassé</span><span class="ch-handle mono">@NathanAdrasse</span></a></li>
-          <li><a href="https://www.youtube.com/@Cam_IX" target="_blank" rel="noopener noreferrer"><span class="ch-name">Cam</span><span class="ch-handle mono">@Cam_IX</span></a></li>
-          <li><a href="https://www.youtube.com/@Cam_Nathan" target="_blank" rel="noopener noreferrer"><span class="ch-name">Cam &amp; Nathan</span><span class="ch-handle mono">@Cam_Nathan</span></a></li>
-        </ul>
-      </div>
-    </section>
-
-    <section id="shorts" aria-labelledby="titre-shorts">
-      <div class="container">
-        <div class="section-head">
-          <h2 id="titre-shorts">Shorts</h2>
-          <p>Format vertical 9:16, pour YouTube Shorts et TikTok.</p>
-        </div>
-        <ul class="shorts-grid">
-          <li>
-            <div class="stage v">
-              <button type="button" class="facade" data-id="rf3YMrjm8fQ" data-start="0" data-title="Five Pays avec @skensurvet, chaîne Nathan Adrassé">
-                <img src="https://i.ytimg.com/vi/rf3YMrjm8fQ/maxresdefault.jpg" alt="Miniature : Five Pays avec @skensurvet" width="1280" height="720" loading="lazy">
-                <span class="play mono">Lire · 1:15</span>
+        <div class="transport" aria-hidden="false">
+          <div class="scrub" aria-hidden="true"><div class="track"></div><div class="done"></div><div class="knob"></div></div>
+          <div class="transport-row">
+            <span class="tc-cur mono" aria-hidden="true">00:26:10:00</span>
+            <div class="mid">
+              <button type="button" class="ibtn" id="hero-play" aria-label="Lire à 26:10 le montage sur Asmar ft. Ademgdy">
+                <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M4 2l10 6-10 6z" fill="currentColor"/></svg>
               </button>
             </div>
-            <div class="caption">
-              <div class="caption-meta mono"><span class="channel">Nathan Adrassé</span></div>
-              <h3>Five Pays avec @skensurvet</h3>
-            </div>
-          </li>
-          <li>
-            <div class="stage v">
-              <button type="button" class="facade" data-id="OsZM0LXTzsY" data-start="0" data-title="Un choix très difficile, chaîne Cam et Nathan">
-                <img src="https://i.ytimg.com/vi/OsZM0LXTzsY/maxresdefault.jpg" alt="Miniature : Un choix très difficile" width="1280" height="720" loading="lazy">
-                <span class="play mono">Lire · 0:52</span>
-              </button>
-            </div>
-            <div class="caption">
-              <div class="caption-meta mono"><span class="channel">Cam &amp; Nathan</span></div>
-              <h3>Un choix très difficile</h3>
-            </div>
-          </li>
-          <li>
-            <div class="stage v">
-              <button type="button" class="facade" data-id="Pa5VnDDCVfc" data-start="0" data-title="Enchères joueurs avec Croshoot, chaîne Cam et Nathan">
-                <img src="https://i.ytimg.com/vi/Pa5VnDDCVfc/maxresdefault.jpg" alt="Miniature : Enchères joueurs avec Croshoot" width="1280" height="720" loading="lazy">
-                <span class="play mono">Lire · 1:06</span>
-              </button>
-            </div>
-            <div class="caption">
-              <div class="caption-meta mono"><span class="channel">Cam &amp; Nathan</span></div>
-              <h3>Enchères joueurs avec Croshoot</h3>
-            </div>
-          </li>
-          <li>
-            <div class="stage v">
-              <button type="button" class="facade" data-id="UfBrZrSE1XQ" data-start="0" data-title="Les jeux doivent-ils coûter plus cher ?, chaîne Cam">
-                <img src="https://i.ytimg.com/vi/UfBrZrSE1XQ/maxresdefault.jpg" alt="Miniature : Les jeux doivent-ils coûter plus cher ?" width="1280" height="720" loading="lazy">
-                <span class="play mono">Lire · 1:06</span>
-              </button>
-            </div>
-            <div class="caption">
-              <div class="caption-meta mono"><span class="channel">Cam</span></div>
-              <h3>Les jeux doivent-ils coûter plus cher ?</h3>
-            </div>
-          </li>
-          <li>
-            <div class="stage v">
-              <button type="button" class="facade" data-id="7vmh5EbxaCY" data-start="0" data-title="POV : tu bats un boss en 2036, chaîne Cam">
-                <img src="https://i.ytimg.com/vi/7vmh5EbxaCY/maxresdefault.jpg" alt="Miniature : POV, tu bats un boss en 2036" width="1280" height="720" loading="lazy">
-                <span class="play mono">Lire · 1:05</span>
-              </button>
-            </div>
-            <div class="caption">
-              <div class="caption-meta mono"><span class="channel">Cam</span></div>
-              <h3>POV : tu bats un boss en 2036</h3>
-            </div>
-          </li>
-        </ul>
-      </div>
-    </section>
-
-    <section id="longs" aria-labelledby="titre-longs">
-      <div class="container">
-        <div class="section-head">
-          <h2 id="titre-longs">Vidéos longues</h2>
-          <p>Chaque lecture démarre sur un passage choisi.</p>
-        </div>
-        <ul class="longs-grid">
-          <li>
-            <div class="stage h">
-              <button type="button" class="facade" data-id="k05IQVokUj8" data-start="199" data-title="Vlog 24h dans la vie de @ademgdy et Kayla, chaîne Asmar">
-                <img src="https://i.ytimg.com/vi/k05IQVokUj8/maxresdefault.jpg" alt="Miniature : Vlog 24h dans la vie de Ademgdy et Kayla" width="1280" height="720" loading="lazy">
-                <span class="play mono">Lire à 3:19</span>
-              </button>
-            </div>
-            <div class="caption">
-              <div class="caption-meta mono"><span class="channel">Asmar</span><span>Vlog</span></div>
-              <h3>Vlog 24h dans la vie de @ademgdy et Kayla</h3>
-            </div>
-          </li>
-          <li>
-            <div class="stage h">
-              <button type="button" class="facade" data-id="lBnT2TIRVzw" data-start="875" data-title="Devine le prix sinon tu payes avec ma sœur, chaîne Ademgdy">
-                <img src="https://i.ytimg.com/vi/lBnT2TIRVzw/maxresdefault.jpg" alt="Miniature : Devine le prix sinon tu payes avec ma sœur" width="1280" height="720" loading="lazy">
-                <span class="play mono">Lire à 14:35</span>
-              </button>
-            </div>
-            <div class="caption">
-              <div class="caption-meta mono"><span class="channel">Ademgdy</span><span>Concept</span></div>
-              <h3>Devine le prix sinon tu payes avec ma sœur</h3>
-            </div>
-          </li>
-          <li>
-            <div class="stage h">
-              <button type="button" class="facade" data-id="VV_IQINIvfc" data-start="12" data-title="On s'envole à Dubaï avec ma sœur et @asmar270, chaîne Ademgdy">
-                <img src="https://i.ytimg.com/vi/VV_IQINIvfc/sddefault.jpg" alt="Miniature : On s'envole à Dubaï avec ma sœur et @asmar270" width="640" height="480" loading="lazy">
-                <span class="play mono">Lire à 0:12</span>
-              </button>
-            </div>
-            <div class="caption">
-              <div class="caption-meta mono"><span class="channel">Ademgdy</span><span>Vlog</span></div>
-              <h3>On s'envole à Dubaï avec ma sœur et @asmar270</h3>
-            </div>
-          </li>
-          <li>
-            <div class="stage h">
-              <button type="button" class="facade" data-id="oNdw3AgqNoQ" data-start="538" data-title="Qui me connaît le mieux ft. @asmar270, chaîne Ademgdy">
-                <img src="https://i.ytimg.com/vi/oNdw3AgqNoQ/sddefault.jpg" alt="Miniature : Qui me connaît le mieux ft. @asmar270" width="640" height="480" loading="lazy">
-                <span class="play mono">Lire à 8:58</span>
-              </button>
-            </div>
-            <div class="caption">
-              <div class="caption-meta mono"><span class="channel">Ademgdy</span><span>Concept</span></div>
-              <h3>Qui me connaît le mieux ft. @asmar270</h3>
-            </div>
-          </li>
-          <li class="wide">
-            <div class="stage h">
-              <button type="button" class="facade" data-id="G4qnYbZVN1w" data-start="150" data-title="L'alternance : meilleure idée ou pure arnaque ?, projet personnel">
-                <img src="https://i.ytimg.com/vi/G4qnYbZVN1w/maxresdefault.jpg" alt="Miniature : L'alternance, meilleure idée ou pure arnaque ?" width="1280" height="720" loading="lazy">
-                <span class="play mono">Lire à 2:30</span>
-              </button>
-            </div>
-            <div class="caption">
-              <div class="caption-meta mono"><span class="channel">Projet personnel</span><span>Ma chaîne</span></div>
-              <h3>L'alternance : meilleure idée ou pure arnaque ?</h3>
-              <p>Écriture, prise de vue face-cam, montage et habillage graphique, réalisés pour ma propre chaîne YouTube.</p>
-            </div>
-          </li>
-        </ul>
-      </div>
-    </section>
-
-    <section id="contact" aria-labelledby="titre-contact">
-      <div class="container contact-grid">
-        <div>
-          <div class="section-head">
-            <h2 id="titre-contact">Confier un montage</h2>
+            <span class="tc-end mono" aria-hidden="true">00:38:12:00</span>
           </div>
+        </div>
+        <figcaption class="caption">
+          <div class="caption-meta mono"><span class="channel">Asmar ft. Ademgdy</span><span>38:12</span></div>
+          <h2>Interrogatoire sous détecteur de mensonge</h2>
+          <p>Face-cam en duo : rythme comique, zooms de réaction et habillage sonore pour tenir la tension sur 38 minutes.</p>
+        </figcaption>
+      </figure>
+    </section>
+
+    <section id="chaines" class="panel" aria-labelledby="titre-chaines">
+      <div class="ptabs"><h2 class="ptab" id="titre-chaines">Projet : Chaînes</h2><span class="ptab-r">Les créateurs pour qui j'ai monté.</span></div>
+      <div class="bin-info mono">5 éléments</div>
+      <div class="row row-head" aria-hidden="true"><span></span><span>Nom</span><span>Identifiant</span><span>Abonnés</span><span></span></div>
+      <ul class="channels">
+        <li><a class="row" href="https://www.youtube.com/@ademgdy" target="_blank" rel="noopener noreferrer"><span class="chip" style="background:#7e6cf2" aria-hidden="true"></span><span class="ch-name">Ademgdy</span><span class="ch-handle mono">@ademgdy</span><span class="ch-subs mono">183 k</span><svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="#8c8c8c" stroke-width="1.5" aria-hidden="true"><path d="M5 2h7v7M12 2L3 11"/></svg></a></li>
+        <li><a class="row" href="https://www.youtube.com/@asmar270" target="_blank" rel="noopener noreferrer"><span class="chip" style="background:#2fb5a7" aria-hidden="true"></span><span class="ch-name">Asmar</span><span class="ch-handle mono">@asmar270</span><span class="ch-subs mono">7,96 k</span><svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="#8c8c8c" stroke-width="1.5" aria-hidden="true"><path d="M5 2h7v7M12 2L3 11"/></svg></a></li>
+        <li><a class="row" href="https://www.youtube.com/@NathanAdrasse" target="_blank" rel="noopener noreferrer"><span class="chip" style="background:#4b9bff" aria-hidden="true"></span><span class="ch-name">Nathan Adrassé</span><span class="ch-handle mono">@NathanAdrasse</span><span class="ch-subs mono">64,7 k</span><svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="#8c8c8c" stroke-width="1.5" aria-hidden="true"><path d="M5 2h7v7M12 2L3 11"/></svg></a></li>
+        <li><a class="row" href="https://www.youtube.com/@Cam_IX" target="_blank" rel="noopener noreferrer"><span class="chip" style="background:#9aa8ff" aria-hidden="true"></span><span class="ch-name">Cam</span><span class="ch-handle mono">@Cam_IX</span><span class="ch-subs mono">100 k</span><svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="#8c8c8c" stroke-width="1.5" aria-hidden="true"><path d="M5 2h7v7M12 2L3 11"/></svg></a></li>
+        <li><a class="row" href="https://www.youtube.com/@Cam_Nathan" target="_blank" rel="noopener noreferrer"><span class="chip" style="background:#3fae6a" aria-hidden="true"></span><span class="ch-name">Cam &amp; Nathan</span><span class="ch-handle mono">@Cam_Nathan</span><span class="ch-subs mono">2,82 k</span><svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="#8c8c8c" stroke-width="1.5" aria-hidden="true"><path d="M5 2h7v7M12 2L3 11"/></svg></a></li>
+      </ul>
+    </section>
+
+    <section id="shorts" class="panel" aria-labelledby="titre-shorts">
+      <div class="ptabs"><h2 class="ptab" id="titre-shorts">Shorts</h2><span class="ptab-r">Format vertical 9:16, pour YouTube Shorts et TikTok.</span></div>
+      <ul class="shorts-grid">
+        <li>
+          <div class="stage v">
+            <button type="button" class="facade" data-id="rf3YMrjm8fQ" data-start="0" data-title="Five Pays avec @skensurvet, chaîne Nathan Adrassé">
+              <img src="https://i.ytimg.com/vi/rf3YMrjm8fQ/maxresdefault.jpg" alt="Miniature : Five Pays avec @skensurvet" width="1280" height="720" loading="lazy">
+              <span class="play mono">Lire · 1:15</span>
+              <span class="clip-bar" style="--clip:#4b9bff"></span>
+            </button>
+          </div>
+          <div class="caption">
+            <div class="caption-meta mono"><span class="channel">Nathan Adrassé</span></div>
+            <h3>Five Pays avec @skensurvet</h3>
+          </div>
+        </li>
+        <li>
+          <div class="stage v">
+            <button type="button" class="facade" data-id="OsZM0LXTzsY" data-start="0" data-title="Un choix très difficile, chaîne Cam et Nathan">
+              <img src="https://i.ytimg.com/vi/OsZM0LXTzsY/maxresdefault.jpg" alt="Miniature : Un choix très difficile" width="1280" height="720" loading="lazy">
+              <span class="play mono">Lire · 0:52</span>
+              <span class="clip-bar" style="--clip:#3fae6a"></span>
+            </button>
+          </div>
+          <div class="caption">
+            <div class="caption-meta mono"><span class="channel">Cam &amp; Nathan</span></div>
+            <h3>Un choix très difficile</h3>
+          </div>
+        </li>
+        <li>
+          <div class="stage v">
+            <button type="button" class="facade" data-id="Pa5VnDDCVfc" data-start="0" data-title="Enchères joueurs avec Croshoot, chaîne Cam et Nathan">
+              <img src="https://i.ytimg.com/vi/Pa5VnDDCVfc/maxresdefault.jpg" alt="Miniature : Enchères joueurs avec Croshoot" width="1280" height="720" loading="lazy">
+              <span class="play mono">Lire · 1:06</span>
+              <span class="clip-bar" style="--clip:#3fae6a"></span>
+            </button>
+          </div>
+          <div class="caption">
+            <div class="caption-meta mono"><span class="channel">Cam &amp; Nathan</span></div>
+            <h3>Enchères joueurs avec Croshoot</h3>
+          </div>
+        </li>
+        <li>
+          <div class="stage v">
+            <button type="button" class="facade" data-id="UfBrZrSE1XQ" data-start="0" data-title="Les jeux doivent-ils coûter plus cher ?, chaîne Cam">
+              <img src="https://i.ytimg.com/vi/UfBrZrSE1XQ/maxresdefault.jpg" alt="Miniature : Les jeux doivent-ils coûter plus cher ?" width="1280" height="720" loading="lazy">
+              <span class="play mono">Lire · 1:06</span>
+              <span class="clip-bar" style="--clip:#9aa8ff"></span>
+            </button>
+          </div>
+          <div class="caption">
+            <div class="caption-meta mono"><span class="channel">Cam</span></div>
+            <h3>Les jeux doivent-ils coûter plus cher ?</h3>
+          </div>
+        </li>
+        <li>
+          <div class="stage v">
+            <button type="button" class="facade" data-id="7vmh5EbxaCY" data-start="0" data-title="POV : tu bats un boss en 2036, chaîne Cam">
+              <img src="https://i.ytimg.com/vi/7vmh5EbxaCY/maxresdefault.jpg" alt="Miniature : POV, tu bats un boss en 2036" width="1280" height="720" loading="lazy">
+              <span class="play mono">Lire · 1:05</span>
+              <span class="clip-bar" style="--clip:#9aa8ff"></span>
+            </button>
+          </div>
+          <div class="caption">
+            <div class="caption-meta mono"><span class="channel">Cam</span></div>
+            <h3>POV : tu bats un boss en 2036</h3>
+          </div>
+        </li>
+      </ul>
+    </section>
+
+    <section id="longs" class="panel" aria-labelledby="titre-longs">
+      <div class="ptabs"><h2 class="ptab" id="titre-longs">Vidéos longues</h2><span class="ptab-r">Chaque lecture démarre sur un passage choisi.</span></div>
+      <ul class="longs-grid">
+        <li>
+          <div class="stage h round">
+            <button type="button" class="facade" data-id="k05IQVokUj8" data-start="199" data-title="Vlog 24h dans la vie de @ademgdy et Kayla, chaîne Asmar">
+              <img src="https://i.ytimg.com/vi/k05IQVokUj8/maxresdefault.jpg" alt="Miniature : Vlog 24h dans la vie de Ademgdy et Kayla" width="1280" height="720" loading="lazy">
+              <span class="play mono">Lire à 3:19</span>
+              <span class="clip-bar" style="--clip:#2fb5a7"></span>
+            </button>
+          </div>
+          <div class="caption">
+            <div class="caption-meta mono"><span class="channel">Asmar</span><span>Vlog</span></div>
+            <h3>Vlog 24h dans la vie de @ademgdy et Kayla</h3>
+          </div>
+        </li>
+        <li>
+          <div class="stage h round">
+            <button type="button" class="facade" data-id="lBnT2TIRVzw" data-start="875" data-title="Devine le prix sinon tu payes avec ma sœur, chaîne Ademgdy">
+              <img src="https://i.ytimg.com/vi/lBnT2TIRVzw/maxresdefault.jpg" alt="Miniature : Devine le prix sinon tu payes avec ma sœur" width="1280" height="720" loading="lazy">
+              <span class="play mono">Lire à 14:35</span>
+              <span class="clip-bar" style="--clip:#7e6cf2"></span>
+            </button>
+          </div>
+          <div class="caption">
+            <div class="caption-meta mono"><span class="channel">Ademgdy</span><span>Concept</span></div>
+            <h3>Devine le prix sinon tu payes avec ma sœur</h3>
+          </div>
+        </li>
+        <li>
+          <div class="stage h round">
+            <button type="button" class="facade" data-id="VV_IQINIvfc" data-start="12" data-title="On s'envole à Dubaï avec ma sœur et @asmar270, chaîne Ademgdy">
+              <img src="https://i.ytimg.com/vi/VV_IQINIvfc/sddefault.jpg" alt="Miniature : On s'envole à Dubaï avec ma sœur et @asmar270" width="640" height="480" loading="lazy">
+              <span class="play mono">Lire à 0:12</span>
+              <span class="clip-bar" style="--clip:#7e6cf2"></span>
+            </button>
+          </div>
+          <div class="caption">
+            <div class="caption-meta mono"><span class="channel">Ademgdy</span><span>Vlog</span></div>
+            <h3>On s'envole à Dubaï avec ma sœur et @asmar270</h3>
+          </div>
+        </li>
+        <li>
+          <div class="stage h round">
+            <button type="button" class="facade" data-id="oNdw3AgqNoQ" data-start="538" data-title="Qui me connaît le mieux ft. @asmar270, chaîne Ademgdy">
+              <img src="https://i.ytimg.com/vi/oNdw3AgqNoQ/sddefault.jpg" alt="Miniature : Qui me connaît le mieux ft. @asmar270" width="640" height="480" loading="lazy">
+              <span class="play mono">Lire à 8:58</span>
+              <span class="clip-bar" style="--clip:#7e6cf2"></span>
+            </button>
+          </div>
+          <div class="caption">
+            <div class="caption-meta mono"><span class="channel">Ademgdy</span><span>Concept</span></div>
+            <h3>Qui me connaît le mieux ft. @asmar270</h3>
+          </div>
+        </li>
+        <li class="wide">
+          <div class="stage h round">
+            <button type="button" class="facade" data-id="G4qnYbZVN1w" data-start="150" data-title="L'alternance : meilleure idée ou pure arnaque ?, projet personnel">
+              <img src="https://i.ytimg.com/vi/G4qnYbZVN1w/maxresdefault.jpg" alt="Miniature : L'alternance, meilleure idée ou pure arnaque ?" width="1280" height="720" loading="lazy">
+              <span class="play mono">Lire à 2:30</span>
+              <span class="clip-bar" style="--clip:#7e6cf2"></span>
+            </button>
+          </div>
+          <div class="caption">
+            <div class="caption-meta mono"><span class="channel">Projet personnel</span><span>Ma chaîne</span></div>
+            <h3>L'alternance : meilleure idée ou pure arnaque ?</h3>
+            <p>Écriture, prise de vue face-cam, montage et habillage graphique, réalisés pour ma propre chaîne YouTube.</p>
+          </div>
+        </li>
+      </ul>
+    </section>
+
+    <section id="contact" class="contact-grid" aria-labelledby="titre-contact">
+      <div class="panel">
+        <div class="ptabs"><span class="ptab">Exporter</span><span class="ptab-r mono">Réponse sous 24 heures</span></div>
+        <div class="contact-body">
+          <h2 id="titre-contact">Confier un montage</h2>
           <p class="contact-lead">Envoie-moi le lien de ta chaîne, le format, le volume par mois et le délai souhaité. Réponse sous 24 heures.</p>
           <div class="actions">
             <a href="mailto:markop@laposte.net?subject=Demande%20de%20montage&amp;body=Bonjour%2C%0D%0A%0D%0ALien%20de%20ma%20cha%C3%AEne%20%3A%20%0D%0AFormat%20(vid%C3%A9o%20longue%2C%20Shorts%20ou%20les%20deux)%20%3A%20%0D%0AVolume%20par%20mois%20%3A%20%0D%0AD%C3%A9lai%20souhait%C3%A9%20%3A%20%0D%0A%0D%0AD%C3%A9tails%20%3A%20%0D%0A" class="btn btn-primary">M'écrire par e-mail</a>
@@ -810,34 +1113,35 @@
           </div>
           <span class="copy-status" id="copy-status" role="status" aria-live="polite"></span>
         </div>
+      </div>
 
+      <div class="panel">
+        <div class="ptabs"><span class="ptab">Paramètres d'exportation</span></div>
         <dl class="workflow">
-          <div><dt>Logiciels</dt><dd>Premiere Pro, After Effects</dd></div>
-          <div><dt>Formats livrés</dt><dd>16:9 en 4K ou 1080p, 9:16</dd></div>
-          <div><dt>Envoi des rushs</dt><dd>Frame.io ou SwissTransfer</dd></div>
-          <div><dt>Zone</dt><dd>Belfort, travail à distance</dd></div>
+          <div><dt>Logiciels</dt><dd><div class="field"><span>Premiere Pro, After Effects</span><svg width="10" height="6" viewBox="0 0 10 6" fill="none" stroke="#9b9b9b" stroke-width="1.5" aria-hidden="true"><path d="M1 1l4 4 4-4"/></svg></div></dd></div>
+          <div><dt>Formats livrés</dt><dd><div class="field"><span>Au choix</span><svg width="10" height="6" viewBox="0 0 10 6" fill="none" stroke="#9b9b9b" stroke-width="1.5" aria-hidden="true"><path d="M1 1l4 4 4-4"/></svg></div></dd></div>
+          <div><dt>Envoi des rushs</dt><dd><div class="field"><span>Frame.io ou SwissTransfer</span><svg width="10" height="6" viewBox="0 0 10 6" fill="none" stroke="#9b9b9b" stroke-width="1.5" aria-hidden="true"><path d="M1 1l4 4 4-4"/></svg></div></dd></div>
+          <div><dt>Zone</dt><dd><div class="field"><span>Belfort, travail à distance</span><svg width="10" height="6" viewBox="0 0 10 6" fill="none" stroke="#9b9b9b" stroke-width="1.5" aria-hidden="true"><path d="M1 1l4 4 4-4"/></svg></div></dd></div>
         </dl>
       </div>
     </section>
   </main>
 
   <footer>
-    <div class="container">
-      <div class="footer-row">
-        <span>Marko Peric, monteur vidéo, micro-entreprise</span>
-        <a href="mailto:markop@laposte.net">markop@laposte.net</a>
-      </div>
-      <details>
-        <summary>Mentions légales et confidentialité</summary>
-        <div class="legal">
-          <p><strong>Éditeur :</strong> Marko Peric, entrepreneur individuel (EI), Belfort (90000), France. Contact : markop@laposte.net.</p>
-          <p><strong>Hébergeur :</strong> GitHub, Inc., 88 Colin P Kelly Jr St, San Francisco, CA 94107, États-Unis, +1 877 448 4820.</p>
-          <p><strong>Cookies et mesure d'audience :</strong> ce site ne dépose aucun cookie et n'utilise aucun outil de mesure d'audience.</p>
-          <p><strong>Services tiers :</strong> les polices de caractères sont chargées depuis Google Fonts, ce qui transmet votre adresse IP à Google. Les vidéos sont hébergées par YouTube (domaine youtube-nocookie.com) et ne se chargent que lorsque vous cliquez sur « Lire » ; YouTube traite alors des données selon sa propre politique de confidentialité.</p>
-          <p><strong>Vos messages :</strong> si vous m'écrivez, votre adresse e-mail et votre message servent uniquement à répondre à votre demande. Vous pouvez demander leur suppression à tout moment à la même adresse.</p>
-        </div>
-      </details>
+    <div class="statusbar">
+      <span>Marko Peric, monteur vidéo, micro-entreprise</span>
+      <span class="links"><a class="mono" href="mailto:markop@laposte.net" style="color: var(--accent-text);">markop@laposte.net</a></span>
     </div>
+    <details>
+      <summary>Mentions légales et confidentialité</summary>
+      <div class="legal">
+        <p><strong>Éditeur :</strong> Marko Peric, entrepreneur individuel (EI), Belfort (90000), France. Contact : markop@laposte.net.</p>
+        <p><strong>Hébergeur :</strong> GitHub, Inc., 88 Colin P Kelly Jr St, San Francisco, CA 94107, États-Unis, +1 877 448 4820.</p>
+        <p><strong>Cookies et mesure d'audience :</strong> ce site ne dépose aucun cookie et n'utilise aucun outil de mesure d'audience.</p>
+        <p><strong>Services tiers :</strong> les polices de caractères sont chargées depuis Google Fonts, ce qui transmet votre adresse IP à Google. Les vidéos sont hébergées par YouTube (domaine youtube-nocookie.com) et ne se chargent que lorsque vous cliquez sur « Lire » ; YouTube traite alors des données selon sa propre politique de confidentialité.</p>
+        <p><strong>Vos messages :</strong> si vous m'écrivez, votre adresse e-mail et votre message servent uniquement à répondre à votre demande. Vous pouvez demander leur suppression à tout moment à la même adresse.</p>
+      </div>
+    </details>
   </footer>
 
   <script>
@@ -872,6 +1176,73 @@
           iframe.focus();
         });
       });
+
+      // Bouton lecture du moniteur : lance la vidéo du premier écran
+      var heroPlay = document.getElementById('hero-play');
+      heroPlay.addEventListener('click', function() {
+        var facade = document.getElementById('hero-facade');
+        if (facade) {
+          facade.click();
+        }
+      });
+
+      // Onglet actif de la barre de navigation selon la section visible
+      var tabs = document.querySelectorAll('.wtab');
+      var sections = {};
+      tabs.forEach(function(tab) {
+        var el = document.getElementById(tab.getAttribute('data-target') === 'travaux' ? 'titre-section' : tab.getAttribute('data-target'));
+        if (el) sections[tab.getAttribute('data-target')] = el;
+      });
+      function setActive(name) {
+        tabs.forEach(function(tab) {
+          tab.classList.toggle('on', tab.getAttribute('data-target') === name);
+          if (tab.getAttribute('data-target') === name) {
+            tab.setAttribute('aria-current', 'true');
+          } else {
+            tab.removeAttribute('aria-current');
+          }
+        });
+      }
+      if ('IntersectionObserver' in window) {
+        var visible = {};
+        var observer = new IntersectionObserver(function(entries) {
+          entries.forEach(function(entry) {
+            visible[entry.target.id] = entry.isIntersecting;
+          });
+          var order = ['travaux', 'chaines', 'shorts', 'longs', 'contact'];
+          for (var i = 0; i < order.length; i++) {
+            var el = sections[order[i]];
+            if (el && visible[el.id]) {
+              setActive(order[i]);
+              return;
+            }
+          }
+        }, { rootMargin: '-120px 0px -55% 0px' });
+        Object.keys(sections).forEach(function(key) { observer.observe(sections[key]); });
+      }
+
+      // Timecode de la règle : suit la position de la tête de lecture (25 images/s, durée totale 2:00)
+      var tcEl = document.getElementById('timecode');
+      var tcTotalFrames = 2 * 60 * 25;
+      var tcTicking = false;
+      function pad(n) { return (n < 10 ? '0' : '') + n; }
+      function updateTimecode() {
+        tcTicking = false;
+        var max = document.documentElement.scrollHeight - window.innerHeight;
+        var progress = max > 0 ? Math.min(1, Math.max(0, window.scrollY / max)) : 0;
+        var f = Math.round(progress * tcTotalFrames);
+        var frames = f % 25;
+        var s = Math.floor(f / 25);
+        tcEl.textContent = '00:' + pad(Math.floor(s / 60)) + ':' + pad(s % 60) + ':' + pad(frames);
+      }
+      window.addEventListener('scroll', function() {
+        if (!tcTicking) {
+          tcTicking = true;
+          requestAnimationFrame(updateTimecode);
+        }
+      }, { passive: true });
+      window.addEventListener('resize', updateTimecode);
+      updateTimecode();
 
       // Copie de l'adresse e-mail
       var copyBtn = document.getElementById('copy-email');
