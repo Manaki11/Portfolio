@@ -46,6 +46,11 @@
       --accent-text: color-mix(in srgb, var(--accent) 65%, white);
       --selected: #2b3f5c;
       --header-h: 108px;
+      --footer-h: 37px;
+      /* Hauteur utile de la timeline, recalculée en JS */
+      --view-h: calc(100vh - var(--header-h) - var(--footer-h) - 16px);
+      --short-w: clamp(150px, calc((var(--view-h) - 140px) * 9 / 16), 340px);
+      --long-w: clamp(260px, calc((var(--view-h) - 245px) / 2 * 16 / 9), 620px);
     }
 
     * {
@@ -69,12 +74,15 @@
       }
     }
 
+    /* La page ne défile pas verticalement : tout se passe dans la timeline horizontale */
     body {
       background-color: var(--bg);
       min-width: 320px;
-      min-height: 100vh;
+      height: 100vh;
+      height: 100dvh;
       display: flex;
       flex-direction: column;
+      overflow: hidden;
     }
 
     a {
@@ -115,8 +123,8 @@
 
     /* Barre de titre, espaces de travail et règle de timeline */
     header {
-      position: sticky;
-      top: 0;
+      position: relative;
+      flex: none;
       z-index: 40;
       background: #1a1a1a;
       border-bottom: 1px solid var(--line-dark);
@@ -250,18 +258,32 @@
       border-top: 10px solid var(--accent);
     }
 
+    /* Timeline : les sections sont des clips posés côte à côte */
     main {
+      position: relative;
+      flex: 1;
+      min-height: 0;
+      width: 100%;
       padding: 8px;
       display: flex;
-      flex-direction: column;
       gap: 8px;
-      max-width: 1600px;
-      width: 100%;
-      margin: 0 auto;
+      overflow-x: auto;
+      overflow-y: hidden;
+      overscroll-behavior-x: contain;
+      scrollbar-color: #4a4a4a #1a1a1a;
     }
 
-    main section {
-      scroll-margin-top: var(--header-h);
+    main > section[id] {
+      flex: none;
+      height: 100%;
+      overflow-y: auto;
+      scroll-margin-left: 8px;
+      scrollbar-width: thin;
+      scrollbar-color: #4a4a4a transparent;
+    }
+
+    main > section[id]:focus {
+      outline: none;
     }
 
     /* Panneaux */
@@ -360,8 +382,16 @@
     /* Premier écran */
     .hero-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr));
+      grid-template-columns: minmax(320px, 2fr) minmax(0, 3fr);
+      align-items: start;
       gap: 8px;
+      width: min(calc(100vw - 16px), calc((var(--view-h) - 190px) * 16 / 9 * 5 / 3 + 8px));
+      min-width: min(calc(100vw - 16px), 860px);
+    }
+
+    .hero-grid > .panel:first-child {
+      align-self: stretch;
+      container-type: inline-size;
     }
 
     .hero-text {
@@ -374,7 +404,7 @@
     }
 
     .hero h1 {
-      font-size: clamp(2.1rem, 4.6vw, 3.75rem);
+      font-size: clamp(1.6rem, 9.5cqi, 3.75rem);
       line-height: 1;
       font-weight: 700;
       text-transform: uppercase;
@@ -668,35 +698,37 @@
       color: var(--accent-text);
     }
 
-    /* Grilles */
+    /* Pistes : Shorts en enfilade, vidéos longues sur deux pistes */
     .shorts-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(min(100%, 170px), 1fr));
+      display: flex;
       gap: 16px;
       list-style: none;
       padding: 16px;
     }
 
+    .shorts-grid > li {
+      flex: none;
+      width: var(--short-w);
+    }
+
+    #chaines {
+      width: min(calc(100vw - 16px), 640px);
+    }
+
     .longs-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr));
-      gap: 32px 16px;
+      grid-auto-flow: column;
+      grid-template-rows: auto auto;
+      grid-auto-columns: var(--long-w);
+      gap: 24px 16px;
       list-style: none;
       padding: 16px;
     }
 
     .longs-grid .wide {
-      grid-column: 1 / -1;
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr));
-      gap: 24px;
-      align-items: center;
-      padding-top: 16px;
-      border-top: 1px solid var(--line);
-    }
-
-    .longs-grid .wide .caption {
-      padding: 0;
+      grid-row: span 2;
+      padding-left: 16px;
+      border-left: 1px solid var(--line);
     }
 
     .longs-grid .wide h3 {
@@ -707,8 +739,10 @@
     /* Contact */
     .contact-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr));
+      grid-template-columns: minmax(0, 1fr);
+      align-content: start;
       gap: 8px;
+      width: min(calc(100vw - 16px), 560px);
     }
 
     .contact-body {
@@ -774,7 +808,8 @@
 
     /* Barre d'état */
     footer {
-      margin-top: auto;
+      position: relative;
+      flex: none;
       background: var(--bar);
       border-top: 1px solid var(--line-dark);
       font-size: 13px;
@@ -803,13 +838,19 @@
       text-decoration: underline;
     }
 
-    footer details {
-      padding: 0 16px 16px;
-    }
-
+    /* Mentions légales : s'ouvrent au-dessus de la barre d'état */
     .legal {
-      margin-top: 12px;
-      max-width: 52em;
+      position: absolute;
+      left: 8px;
+      bottom: calc(100% + 8px);
+      max-width: min(52em, calc(100vw - 16px));
+      max-height: 60vh;
+      overflow-y: auto;
+      padding: 16px;
+      background: var(--panel-head);
+      border: 1px solid var(--line-strong);
+      border-radius: 6px;
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.5);
     }
 
     .legal p + p {
@@ -821,31 +862,66 @@
       font-weight: 600;
     }
 
-    /* Tablettes et téléphones */
+    /* Écrans peu hauts : une seule piste pour les vidéos longues */
+    @media (max-height: 700px) {
+      :root {
+        --long-w: clamp(260px, calc((var(--view-h) - 150px) * 16 / 9), 620px);
+      }
+      .longs-grid {
+        grid-template-rows: auto;
+      }
+      .longs-grid .wide {
+        grid-row: auto;
+      }
+    }
+
+    /* Tablettes et téléphones : un écran par section, on glisse de l'une à l'autre */
     @media (max-width: 860px) {
-      .shorts-grid {
-        display: flex;
-        overflow-x: auto;
+      main {
         scroll-snap-type: x mandatory;
-        gap: 12px;
-        padding: 16px 16px 20px;
+        scroll-padding-inline: 8px;
+      }
+      main > section[id] {
+        width: calc(100vw - 16px);
+        scroll-snap-align: start;
+        scroll-snap-stop: always;
+      }
+      .hero-grid {
+        grid-template-columns: minmax(0, 1fr);
+        grid-auto-rows: max-content;
+        align-content: start;
+        min-width: 0;
+      }
+      .shorts-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 16px 12px;
       }
       .shorts-grid > li {
-        flex: 0 0 34%;
-        scroll-snap-align: start;
+        width: auto;
+      }
+      .longs-grid {
+        grid-auto-flow: row;
+        grid-template-rows: none;
+        grid-auto-columns: auto;
+        grid-template-columns: minmax(0, 1fr);
+      }
+      .longs-grid .wide {
+        grid-row: auto;
+        padding: 16px 0 0;
+        border-left: 0;
+        border-top: 1px solid var(--line);
       }
     }
 
     @media (max-width: 600px) {
-      .titlebar .where {
+      .titlebar .where,
+      .statusbar > span:first-child {
         display: none;
       }
       .hero-text,
       .contact-body {
         padding: 28px 20px;
-      }
-      .shorts-grid > li {
-        flex: 0 0 64%;
       }
       .actions .btn {
         flex: 1 1 100%;
@@ -900,7 +976,7 @@
   </header>
 
   <main id="travaux">
-    <section class="hero hero-grid" id="titre-section" aria-labelledby="titre">
+    <section class="hero hero-grid" id="titre-section" aria-labelledby="titre" tabindex="-1">
       <div class="panel">
         <div class="ptabs"><span class="ptab">Contrôle des effets</span><span class="ptab-r mono">Montage vidéo</span></div>
         <div class="hero-text">
@@ -943,7 +1019,7 @@
       </figure>
     </section>
 
-    <section id="chaines" class="panel" aria-labelledby="titre-chaines">
+    <section id="chaines" class="panel" aria-labelledby="titre-chaines" tabindex="-1">
       <div class="ptabs"><h2 class="ptab" id="titre-chaines">Projet : Chaînes</h2><span class="ptab-r">Les créateurs pour qui j'ai monté.</span></div>
       <div class="bin-info mono">5 éléments</div>
       <div class="row row-head" aria-hidden="true"><span></span><span>Nom</span><span>Identifiant</span><span>Abonnés</span><span></span></div>
@@ -956,7 +1032,7 @@
       </ul>
     </section>
 
-    <section id="shorts" class="panel" aria-labelledby="titre-shorts">
+    <section id="shorts" class="panel" aria-labelledby="titre-shorts" tabindex="-1">
       <div class="ptabs"><h2 class="ptab" id="titre-shorts">Shorts</h2><span class="ptab-r">Format vertical 9:16, pour YouTube Shorts et TikTok.</span></div>
       <ul class="shorts-grid">
         <li>
@@ -1000,6 +1076,32 @@
         </li>
         <li>
           <div class="stage v">
+            <button type="button" class="facade" data-id="tpH2-QqX6cY" data-start="0" data-title="Le jeu détruit par son succès, chaîne Cam">
+              <img src="https://i.ytimg.com/vi/tpH2-QqX6cY/maxresdefault.jpg" alt="Miniature : Le jeu détruit par son succès" width="1280" height="720" loading="lazy">
+              <span class="play mono">Lire · 0:53</span>
+              <span class="clip-bar" style="--clip:#9aa8ff"></span>
+            </button>
+          </div>
+          <div class="caption">
+            <div class="caption-meta mono"><span class="channel">Cam</span></div>
+            <h3>Le jeu détruit par son succès</h3>
+          </div>
+        </li>
+        <li>
+          <div class="stage v">
+            <button type="button" class="facade" data-id="8fbobe5iihc" data-start="0" data-title="La victoire de la honte, chaîne Cam">
+              <img src="https://i.ytimg.com/vi/8fbobe5iihc/hqdefault.jpg" alt="Miniature : La victoire de la honte" width="480" height="360" loading="lazy">
+              <span class="play mono">Lire · 1:04</span>
+              <span class="clip-bar" style="--clip:#9aa8ff"></span>
+            </button>
+          </div>
+          <div class="caption">
+            <div class="caption-meta mono"><span class="channel">Cam</span></div>
+            <h3>La victoire de la honte</h3>
+          </div>
+        </li>
+        <li>
+          <div class="stage v">
             <button type="button" class="facade" data-id="UfBrZrSE1XQ" data-start="0" data-title="Les jeux doivent-ils coûter plus cher ?, chaîne Cam">
               <img src="https://i.ytimg.com/vi/UfBrZrSE1XQ/maxresdefault.jpg" alt="Miniature : Les jeux doivent-ils coûter plus cher ?" width="1280" height="720" loading="lazy">
               <span class="play mono">Lire · 1:06</span>
@@ -1027,9 +1129,22 @@
       </ul>
     </section>
 
-    <section id="longs" class="panel" aria-labelledby="titre-longs">
+    <section id="longs" class="panel" aria-labelledby="titre-longs" tabindex="-1">
       <div class="ptabs"><h2 class="ptab" id="titre-longs">Vidéos longues</h2><span class="ptab-r">Chaque lecture démarre sur un passage choisi.</span></div>
       <ul class="longs-grid">
+        <li>
+          <div class="stage h round">
+            <button type="button" class="facade" data-id="YkDXFWscTbc" data-start="576" data-title="Qui a le plat piégé avec @ademgdy et Kayla, chaîne Asmar">
+              <img src="https://i.ytimg.com/vi/YkDXFWscTbc/maxresdefault.jpg" alt="Miniature : Qui a le plat piégé avec Ademgdy et Kayla" width="1280" height="720" loading="lazy">
+              <span class="play mono">Lire à 9:36</span>
+              <span class="clip-bar" style="--clip:#2fb5a7"></span>
+            </button>
+          </div>
+          <div class="caption">
+            <div class="caption-meta mono"><span class="channel">Asmar</span><span>Concept</span></div>
+            <h3>Qui a le plat piégé avec @ademgdy et Kayla</h3>
+          </div>
+        </li>
         <li>
           <div class="stage h round">
             <button type="button" class="facade" data-id="k05IQVokUj8" data-start="199" data-title="Vlog 24h dans la vie de @ademgdy et Kayla, chaîne Asmar">
@@ -1099,7 +1214,7 @@
       </ul>
     </section>
 
-    <section id="contact" class="contact-grid" aria-labelledby="titre-contact">
+    <section id="contact" class="contact-grid" aria-labelledby="titre-contact" tabindex="-1">
       <div class="panel">
         <div class="ptabs"><span class="ptab">Exporter</span><span class="ptab-r mono">Réponse sous 24 heures</span></div>
         <div class="contact-body">
@@ -1128,18 +1243,18 @@
   <footer>
     <div class="statusbar">
       <span>Marko Peric, monteur vidéo, micro-entreprise</span>
+      <details>
+        <summary>Mentions légales et confidentialité</summary>
+        <div class="legal">
+          <p><strong>Éditeur :</strong> Marko Peric, entrepreneur individuel (EI), Belfort (90000), France. Contact : markop@laposte.net.</p>
+          <p><strong>Hébergeur :</strong> GitHub, Inc., 88 Colin P Kelly Jr St, San Francisco, CA 94107, États-Unis, +1 877 448 4820.</p>
+          <p><strong>Cookies et mesure d'audience :</strong> ce site ne dépose aucun cookie et n'utilise aucun outil de mesure d'audience.</p>
+          <p><strong>Services tiers :</strong> les polices de caractères sont chargées depuis Google Fonts, ce qui transmet votre adresse IP à Google. Les vidéos sont hébergées par YouTube (domaine youtube-nocookie.com) et ne se chargent que lorsque vous cliquez sur « Lire » ; YouTube traite alors des données selon sa propre politique de confidentialité.</p>
+          <p><strong>Vos messages :</strong> si vous m'écrivez, votre adresse e-mail et votre message servent uniquement à répondre à votre demande. Vous pouvez demander leur suppression à tout moment à la même adresse.</p>
+        </div>
+      </details>
       <span class="links"><a class="mono" href="mailto:markop@laposte.net" style="color: var(--accent-text);">markop@laposte.net</a></span>
     </div>
-    <details>
-      <summary>Mentions légales et confidentialité</summary>
-      <div class="legal">
-        <p><strong>Éditeur :</strong> Marko Peric, entrepreneur individuel (EI), Belfort (90000), France. Contact : markop@laposte.net.</p>
-        <p><strong>Hébergeur :</strong> GitHub, Inc., 88 Colin P Kelly Jr St, San Francisco, CA 94107, États-Unis, +1 877 448 4820.</p>
-        <p><strong>Cookies et mesure d'audience :</strong> ce site ne dépose aucun cookie et n'utilise aucun outil de mesure d'audience.</p>
-        <p><strong>Services tiers :</strong> les polices de caractères sont chargées depuis Google Fonts, ce qui transmet votre adresse IP à Google. Les vidéos sont hébergées par YouTube (domaine youtube-nocookie.com) et ne se chargent que lorsque vous cliquez sur « Lire » ; YouTube traite alors des données selon sa propre politique de confidentialité.</p>
-        <p><strong>Vos messages :</strong> si vous m'écrivez, votre adresse e-mail et votre message servent uniquement à répondre à votre demande. Vous pouvez demander leur suppression à tout moment à la même adresse.</p>
-      </div>
-    </details>
   </footer>
 
   <script>
@@ -1184,39 +1299,61 @@
         }
       });
 
-      // Onglet actif de la barre de navigation selon la section visible
+      // Timeline horizontale : <main> défile de gauche à droite, comme une séquence Premiere Pro
+      var track = document.getElementById('travaux');
+      var root = document.documentElement;
+      var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+      function maxScroll() {
+        return Math.max(0, track.scrollWidth - track.clientWidth);
+      }
+      function scrollTrackTo(left, smooth) {
+        track.scrollTo({ left: left, behavior: smooth && !reduceMotion.matches ? 'smooth' : 'instant' });
+      }
+      function updateViewHeight() {
+        root.style.setProperty('--view-h', (track.clientHeight - 16) + 'px');
+      }
+
+      // Liens internes (onglets, boutons du premier écran) : glissement jusqu'à la section
+      document.querySelectorAll('a[href^="#"]').forEach(function(link) {
+        link.addEventListener('click', function(e) {
+          var target = document.getElementById(link.getAttribute('href').slice(1));
+          if (!target || target === track) return;
+          var section = target.closest('main > section');
+          if (!section) return;
+          e.preventDefault();
+          // Le focus avant le glissement : posé après, il interrompt le défilement fluide
+          section.focus({ preventScroll: true });
+          if (history.replaceState) history.replaceState(null, '', link.getAttribute('href'));
+          scrollTrackTo(section.offsetLeft - 8, true);
+        });
+      });
+
+      // Onglet actif de la barre de navigation selon la section sous la tête de lecture
       var tabs = document.querySelectorAll('.wtab');
-      var sections = {};
+      var sections = [];
       tabs.forEach(function(tab) {
         var el = document.getElementById(tab.getAttribute('data-target') === 'travaux' ? 'titre-section' : tab.getAttribute('data-target'));
-        if (el) sections[tab.getAttribute('data-target')] = el;
+        if (el) sections.push({ name: tab.getAttribute('data-target'), el: el });
       });
       function setActive(name) {
         tabs.forEach(function(tab) {
-          tab.classList.toggle('on', tab.getAttribute('data-target') === name);
-          if (tab.getAttribute('data-target') === name) {
+          var on = tab.getAttribute('data-target') === name;
+          tab.classList.toggle('on', on);
+          if (on) {
             tab.setAttribute('aria-current', 'true');
           } else {
             tab.removeAttribute('aria-current');
           }
         });
       }
-      if ('IntersectionObserver' in window) {
-        var visible = {};
-        var observer = new IntersectionObserver(function(entries) {
-          entries.forEach(function(entry) {
-            visible[entry.target.id] = entry.isIntersecting;
-          });
-          var order = ['travaux', 'chaines', 'shorts', 'longs', 'contact'];
-          for (var i = 0; i < order.length; i++) {
-            var el = sections[order[i]];
-            if (el && visible[el.id]) {
-              setActive(order[i]);
-              return;
-            }
-          }
-        }, { rootMargin: '-120px 0px -55% 0px' });
-        Object.keys(sections).forEach(function(key) { observer.observe(sections[key]); });
+      function updateActiveTab(progress) {
+        var name = sections.length ? sections[0].name : '';
+        var mark = track.scrollLeft + track.clientWidth * 0.35;
+        sections.forEach(function(s) {
+          if (s.el.offsetLeft <= mark) name = s.name;
+        });
+        if (progress > 0.995 && sections.length) name = sections[sections.length - 1].name;
+        setActive(name);
       }
 
       // Règle de timeline : la tête de lecture et le timecode suivent le défilement (25 images/s, durée totale 2:00)
@@ -1226,13 +1363,10 @@
       var tcTotalFrames = 2 * 60 * 25;
       var tcTicking = false;
       function pad(n) { return (n < 10 ? '0' : '') + n; }
-      function maxScroll() {
-        return Math.max(0, document.documentElement.scrollHeight - window.innerHeight);
-      }
       function updateTimecode() {
         tcTicking = false;
         var max = maxScroll();
-        var progress = max > 0 ? Math.min(1, Math.max(0, window.scrollY / max)) : 0;
+        var progress = max > 0 ? Math.min(1, Math.max(0, track.scrollLeft / max)) : 0;
         var f = Math.round(progress * tcTotalFrames);
         var frames = f % 25;
         var s = Math.floor(f / 25);
@@ -1241,12 +1375,13 @@
         playhead.style.left = (progress * (ruler.clientWidth - 8)) + 'px';
         ruler.setAttribute('aria-valuenow', Math.round(progress * 100));
         ruler.setAttribute('aria-valuetext', tc);
+        updateActiveTab(progress);
       }
 
-      // Scrub comme dans Premiere Pro : cliquer ou glisser sur la règle déplace la page
+      // Scrub comme dans Premiere Pro : cliquer ou glisser sur la règle déplace la timeline
       function scrollToProgress(progress) {
         progress = Math.min(1, Math.max(0, progress));
-        window.scrollTo({ top: progress * maxScroll(), behavior: 'instant' });
+        scrollTrackTo(progress * maxScroll(), false);
         updateTimecode();
       }
       function scrubAt(clientX) {
@@ -1258,6 +1393,8 @@
         e.preventDefault();
         ruler.setPointerCapture(e.pointerId);
         ruler.classList.add('scrubbing');
+        // Pas d'aimantation pendant le scrub, sinon la tête saute de section en section
+        track.style.scrollSnapType = 'none';
         scrubAt(e.clientX);
       });
       ruler.addEventListener('pointermove', function(e) {
@@ -1266,23 +1403,49 @@
       function endScrub(e) {
         if (ruler.hasPointerCapture(e.pointerId)) ruler.releasePointerCapture(e.pointerId);
         ruler.classList.remove('scrubbing');
+        track.style.scrollSnapType = '';
       }
       ruler.addEventListener('pointerup', endScrub);
       ruler.addEventListener('pointercancel', endScrub);
 
-      // Molette sur la règle : défilement horizontal ou vertical, comme sur une timeline
+      // Molette : le défilement vertical devient horizontal, comme dans une timeline.
+      // Une section plus haute que l'écran défile d'abord verticalement jusqu'à son bord.
+      function wheelDelta(e, value) {
+        if (e.deltaMode === 1) return value * 40;
+        if (e.deltaMode === 2) return value * track.clientWidth;
+        return value;
+      }
+      function canScrollY(el, dy) {
+        while (el && el !== track) {
+          if (el.scrollHeight > el.clientHeight + 1) {
+            var oy = getComputedStyle(el).overflowY;
+            if (oy === 'auto' || oy === 'scroll') {
+              if (dy > 0 && el.scrollTop + el.clientHeight < el.scrollHeight - 1) return true;
+              if (dy < 0 && el.scrollTop > 0) return true;
+            }
+          }
+          el = el.parentElement;
+        }
+        return false;
+      }
+      track.addEventListener('wheel', function(e) {
+        if (e.ctrlKey || Math.abs(e.deltaX) >= Math.abs(e.deltaY)) return;
+        if (canScrollY(e.target, e.deltaY)) return;
+        e.preventDefault();
+        track.scrollLeft += wheelDelta(e, e.deltaY);
+      }, { passive: false });
       ruler.addEventListener('wheel', function(e) {
         var delta = Math.abs(e.deltaX) > Math.abs(e.deltaY) ? e.deltaX : e.deltaY;
         if (!delta) return;
         e.preventDefault();
-        window.scrollBy({ top: delta, behavior: 'instant' });
+        track.scrollLeft += wheelDelta(e, delta);
       }, { passive: false });
 
-      // Clavier : flèches = 5 images, Maj + flèches = une seconde, Page préc. / suiv., Début / Fin
-      ruler.addEventListener('keydown', function(e) {
+      // Clavier sur la règle : flèches = 5 images, Maj + flèches = une seconde, Page préc. / suiv., Début / Fin
+      function stepKeys(e) {
         var max = maxScroll();
-        if (!max) return;
-        var progress = window.scrollY / max;
+        if (!max) return false;
+        var progress = track.scrollLeft / max;
         var step = (e.shiftKey ? 25 : 5) / tcTotalFrames;
         switch (e.key) {
           case 'ArrowRight': case 'ArrowUp': progress += step; break;
@@ -1291,19 +1454,48 @@
           case 'PageUp': progress -= 0.1; break;
           case 'Home': progress = 0; break;
           case 'End': progress = 1; break;
-          default: return;
+          default: return false;
         }
-        e.preventDefault();
         scrollToProgress(progress);
+        return true;
+      }
+      ruler.addEventListener('keydown', function(e) {
+        if (stepKeys(e)) e.preventDefault();
       });
-      window.addEventListener('scroll', function() {
+
+      // Clavier ailleurs sur la page : les flèches et Page préc. / suiv. avancent dans la timeline
+      document.addEventListener('keydown', function(e) {
+        if (e.defaultPrevented || e.altKey || e.ctrlKey || e.metaKey) return;
+        var t = e.target;
+        if (t !== document.body && t !== track && !(t.matches && t.matches('main > section'))) return;
+        var page = track.clientWidth * 0.8;
+        var dx = { ArrowRight: 80, ArrowLeft: -80, PageDown: page, PageUp: -page, ' ': e.shiftKey ? -page : page }[e.key];
+        if (e.key === 'Home') { e.preventDefault(); scrollTrackTo(0, true); return; }
+        if (e.key === 'End') { e.preventDefault(); scrollTrackTo(maxScroll(), true); return; }
+        if (dx === undefined) return;
+        e.preventDefault();
+        scrollTrackTo(track.scrollLeft + dx, Math.abs(dx) > 80);
+      });
+
+      track.addEventListener('scroll', function() {
         if (!tcTicking) {
           tcTicking = true;
           requestAnimationFrame(updateTimecode);
         }
       }, { passive: true });
-      window.addEventListener('resize', updateTimecode);
+      window.addEventListener('resize', function() {
+        updateViewHeight();
+        updateTimecode();
+      });
+      updateViewHeight();
       updateTimecode();
+
+      // Arrivée directe sur une ancre (ex. /#contact)
+      if (location.hash) {
+        var start = document.getElementById(location.hash.slice(1));
+        var startSection = start && start.closest('main > section');
+        if (startSection) scrollTrackTo(startSection.offsetLeft - 8, false);
+      }
 
       // Copie de l'adresse e-mail
       var copyBtn = document.getElementById('copy-email');
