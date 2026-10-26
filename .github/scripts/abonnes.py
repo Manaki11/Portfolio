@@ -36,7 +36,12 @@ def via_api(handle, key):
 
 def via_page(handle):
     html = fetch('https://www.youtube.com/@' + handle + '?hl=en&gl=US')
-    match = re.search(r'([\d.,]+)\s*([KMB]?) subscribers', html)
+    # Le compteur de la chaîne est dans l'en-tête ; avant lui, la page peut
+    # lister d'autres chaînes avec leur propre nombre d'abonnés
+    header = max(html.find('"pageHeaderRenderer"'), html.find('"c4TabbedHeaderRenderer"'))
+    if header < 0:
+        raise ValueError('en-tête introuvable')
+    match = re.search(r'([\d.,]+)\s*([KMB]?) subscribers', html[header:])
     if not match:
         raise ValueError('compteur introuvable')
     number = float(match.group(1).replace(',', ''))
@@ -56,6 +61,13 @@ def format_fr(count):
     return str(count)
 
 
+def parse_fr(text):
+    match = re.fullmatch(r'\s*([\d,]+)\s*([kM]?)\s*', text)
+    if not match:
+        return None
+    return float(match.group(1).replace(',', '.')) * {'': 1, 'k': 1e3, 'M': 1e6}[match.group(2)]
+
+
 def main():
     key = os.environ.get('YOUTUBE_API_KEY', '').strip()
     with open(PAGE, encoding='utf-8') as f:
@@ -68,6 +80,9 @@ def main():
         handle = match.group('handle')
         try:
             count = via_api(handle, key) if key else via_page(handle)
+            old = parse_fr(match.group('subs'))
+            if old and not old / 2 <= count <= old * 2:
+                raise ValueError(f'{count} trop éloigné de la valeur actuelle, vérification manuelle nécessaire')
         except Exception as error:
             failures += 1
             print(f'@{handle} : échec ({error}), valeur conservée : {match.group("subs")}')
