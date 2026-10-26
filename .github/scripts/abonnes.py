@@ -36,12 +36,12 @@ def via_api(handle, key):
 
 def via_page(handle):
     html = fetch('https://www.youtube.com/@' + handle + '?hl=en&gl=US')
-    # Le compteur de la chaîne est dans l'en-tête ; avant lui, la page peut
-    # lister d'autres chaînes avec leur propre nombre d'abonnés
-    header = max(html.find('"pageHeaderRenderer"'), html.find('"c4TabbedHeaderRenderer"'))
-    if header < 0:
-        raise ValueError('en-tête introuvable')
-    match = re.search(r'([\d.,]+)\s*([KMB]?) subscribers', html[header:])
+    # La page liste aussi d'autres chaînes avec leur propre nombre d'abonnés :
+    # on lit le compteur placé juste après l'identifiant de la chaîne
+    anchor = re.search(r'"content":"@' + re.escape(handle) + '"', html, re.IGNORECASE)
+    if not anchor:
+        raise ValueError('identifiant introuvable dans l\'en-tête')
+    match = re.search(r'"content":"([\d.,]+)\s*([KMB]?) subscribers"', html[anchor.end():anchor.end() + 2000])
     if not match:
         raise ValueError('compteur introuvable')
     number = float(match.group(1).replace(',', ''))
