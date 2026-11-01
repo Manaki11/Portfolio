@@ -49,7 +49,8 @@
       --footer-h: 37px;
       /* Hauteur utile de la timeline, recalculée en JS */
       --view-h: calc(100vh - var(--header-h) - var(--footer-h) - 16px);
-      --short-w: clamp(150px, calc((var(--view-h) - 140px) * 9 / 16), 340px);
+      /* Shorts sur deux rangées : chaque vignette prend la moitié de la hauteur, légendes comprises */
+      --short-w: clamp(100px, calc((var(--view-h) - 270px) / 2 * 9 / 16), 260px);
       --long-w: clamp(260px, calc((var(--view-h) - 245px) / 2 * 16 / 9), 620px);
     }
 
@@ -698,17 +699,41 @@
       color: var(--accent-text);
     }
 
-    /* Pistes : Shorts en enfilade, vidéos longues sur deux pistes */
+    /* Pistes : Shorts sur deux rangées (5 puis le reste), vidéos longues sur deux pistes */
     .shorts-grid {
-      display: flex;
+      display: grid;
+      grid-template-columns: repeat(5, var(--short-w));
       gap: 16px;
       list-style: none;
       padding: 16px;
     }
 
-    .shorts-grid > li {
-      flex: none;
-      width: var(--short-w);
+    .shorts-grid .play {
+      left: 8px;
+      gap: 6px;
+      padding: 4px 8px;
+      white-space: nowrap;
+    }
+
+    /* Vignettes étroites : étiquette « Lire » réduite pour ne pas déborder */
+    .shorts-grid .stage {
+      container-type: inline-size;
+    }
+
+    @container (max-width: 140px) {
+      .shorts-grid .play {
+        left: 6px;
+        padding: 3px 6px;
+        font-size: 11px;
+      }
+      .shorts-grid .play::before {
+        display: none;
+      }
+    }
+
+    .shorts-grid .caption h3 {
+      font-size: 0.9375rem;
+      line-height: 1.25;
     }
 
     #chaines {
@@ -862,10 +887,16 @@
       font-weight: 600;
     }
 
-    /* Écrans peu hauts : une seule piste pour les vidéos longues */
+    /* Écrans peu hauts : une seule rangée de Shorts et une seule piste pour les vidéos longues */
     @media (max-height: 700px) {
       :root {
+        --short-w: clamp(150px, calc((var(--view-h) - 140px) * 9 / 16), 340px);
         --long-w: clamp(260px, calc((var(--view-h) - 150px) * 16 / 9), 620px);
+      }
+      .shorts-grid {
+        grid-template-columns: none;
+        grid-auto-flow: column;
+        grid-auto-columns: var(--short-w);
       }
       .longs-grid {
         grid-template-rows: auto;
@@ -893,12 +924,9 @@
         min-width: 0;
       }
       .shorts-grid {
-        display: grid;
         grid-template-columns: repeat(2, minmax(0, 1fr));
+        grid-auto-flow: row;
         gap: 16px 12px;
-      }
-      .shorts-grid > li {
-        width: auto;
       }
       .longs-grid {
         grid-auto-flow: row;
